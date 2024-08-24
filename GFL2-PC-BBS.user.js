@@ -60,6 +60,15 @@ GM_addStyle(`
 .card_item .card_con{width:unset !important}
 .card_item .card_con_reply{width:unset !important}
 .index_con .strage_item{width:98% !important}
+.swiper-container2{width:100% !important}
+.swiper-slide img{
+  width:auto !important;
+  max-height:100%;
+}
+.img_popup{
+  width:100%;
+  height:100%;
+}
 
 /*--攻略页--*/
 .strage_item>div{width:calc(100% - 1.6rem) !important}
