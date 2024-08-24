@@ -1,5 +1,7 @@
 // ==UserScript==
 // @name        追放官方社区PC页面适配
+// @namespace   GFL2-PC-BBS
+// @license     MIT
 // @icon        https://community.cdn.sunborngame.com/prod/emoji/%E8%AE%A9%E6%88%91%E7%9C%8B%E7%9C%8B.jpg
 // @match       https://gf2-bbs.sunborngame.com/*
 // @grant       GM_addStyle
