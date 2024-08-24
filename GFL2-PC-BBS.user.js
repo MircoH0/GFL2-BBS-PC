@@ -109,7 +109,7 @@ GM_addStyle(`
 GM_registerMenuCommand("使用自定义背景图(刷新生效)",mod_bg);
 function mod_bg(){
   console.log(GM_getValue("bg_url"));
-  var temp_bg_url =prompt("背景图片的URL:\n留空则为取消设置背景图",GM_getValue("bg_url"));
+  var temp_bg_url =prompt("背景图片的URL:\n需允许外链或者是社区内的图片\n留空则为取消设置背景图",GM_getValue("bg_url"));
   if(temp_bg_url!=null){
     GM_setValue("bg_url",temp_bg_url);
   console.log(GM_getValue("bg_url"));
