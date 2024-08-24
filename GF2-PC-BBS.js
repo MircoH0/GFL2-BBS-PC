@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        追放论坛PC页面适配
+// @name        追放官方社区PC页面适配
 // @namespace   Violentmonkey Scripts
 // @icon        https://gf2-cn.cdn.sunborngame.com/website/official/web_head.jpg
 // @match       https://gf2-bbs.sunborngame.com/*
