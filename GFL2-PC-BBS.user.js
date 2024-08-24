@@ -7,7 +7,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @run-at      document-end
-// @version     0.0.1
+// @version     0.0.3
 // @author      Mirco
 // @description 拉伸至宽屏+明暗模式切换+自定义背景
 // ==/UserScript==
