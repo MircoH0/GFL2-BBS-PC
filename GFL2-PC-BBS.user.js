@@ -105,15 +105,16 @@ function switch_dark_bright(){
 if (GM_getValue("darkmode") == true){
   GM_addStyle(`
 
-html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box{
+html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign_box{
   background-color:#444 !important;
-  color:#fff !important;
+  color:#eee !important;
 }
-.nav_con,.van-tabs__nav,.index_news,.conditions1,.card_item,.van-button--primary,.van-button--plain,.comment_head,.post_box,.van-action-sheet__cancel,.list_wrap li,.van-list,.mine_box,.btn1,.btn2,.t_box>div,.item,.w-e-toolbar,.w-e-text-container,.top_box,.sign,.task,.content_rule{
+.nav_con,.van-tabs__nav,.index_news,.conditions1,.card_item,.van-button--primary,.van-button--plain,.comment_head,.post_box,.van-action-sheet__cancel,.list_wrap li,.van-list,.mine_box,.btn1,.btn2,.t_box>div,.item,.w-e-toolbar,.w-e-text-container,.top_box,.sign,.task,.content_rule,.gift_user{
   background-color:#333 !important;
   background:#333 !important;
 }
-.van-tab,.card_tit p,.card_m1 div,.comment_head>span,.van-action-sheet__cancel,.list_wrap>p,.show_message p,.show_message span,.mine_box p,.item>p{color:#fff !important}
+.van-tab,.card_tit p,.card_m1 div,.comment_head>span,.van-action-sheet__cancel,.list_wrap>p,.show_message p,.show_message span,.mine_box p,.item>p,.sign_box>p,.gift_user{color:#eee !important}
+.sign_box>p b{color:#ff0 !important}
 .card_m1 div a.show_message a{color:#777 !important}
 .card_item,.post_box,.comment_head,.mine_box,.btn1,.btn2,.top_box,.sign,.task{-webkit-box-shadow:0 2px 15px #777 !important}
 .pc_right_bt a{color:#444 !important}
