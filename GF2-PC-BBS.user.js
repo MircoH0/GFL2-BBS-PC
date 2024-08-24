@@ -9,7 +9,7 @@
 // @run-at      document-end
 // @version     0.0.1
 // @author      Mirco
-// @description 拉伸至宽屏+黑暗模式
+// @description 拉伸至宽屏+明暗模式切换
 // ==/UserScript==
 
 GM_addStyle(`
