@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        追放官方社区PC页面适配
-// @icon        https://gf2-cn.cdn.sunborngame.com/website/official/web_head.jpg
+// @icon        https://community.cdn.sunborngame.com/prod/emoji/%E8%AE%A9%E6%88%91%E7%9C%8B%E7%9C%8B.jpg
 // @match       https://gf2-bbs.sunborngame.com/*
 // @grant       GM_addStyle
 // @grant       GM_registerMenuCommand
