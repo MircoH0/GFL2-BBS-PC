@@ -61,7 +61,7 @@ GM_addStyle(`
 .card_item .card_con_reply{width:unset !important}
 .index_con .strage_item{width:98% !important}
 .swiper-container2{width:100% !important}
-.swiper-slide img{
+.swiper-container2 .swiper-slide img{
   width:auto !important;
   max-height:100%;
 }
