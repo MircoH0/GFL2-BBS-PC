@@ -118,6 +118,7 @@ html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign
 .card_m1 div a,.show_message a{color:#999 !important}
 .card_item,.post_box,.comment_head,.mine_box,.btn1,.btn2,.top_box,.sign,.task{-webkit-box-shadow:0 2px 15px #777 !important}
 .pc_right_bt a{color:#444 !important}
+.img_popup{background-color:transparent !important}
 
 `);
 }
