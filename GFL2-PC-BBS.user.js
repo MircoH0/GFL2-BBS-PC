@@ -109,7 +109,7 @@ html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign
   background-color:#444 !important;
   color:#eee !important;
 }
-.nav_con,.van-tabs__nav,.index_news,.conditions1,.card_item,.van-button--primary,.van-button--plain,.comment_head,.post_box,.van-action-sheet__cancel,.list_wrap li,.van-list,.mine_box,.btn1,.btn2,.t_box>div,.item,.w-e-toolbar,.w-e-text-container,.top_box,.sign,.task,.content_rule,.gift_user{
+.nav_con,.van-tabs__nav,.index_news,.conditions1,.card_item,.van-button--primary,.van-button--plain,.comment_head,.post_box,.van-action-sheet__cancel,.list_wrap li,.van-list,.mine_box,.btn1,.btn2,.t_box>div,.item,.w-e-toolbar,.w-e-text-container,.top_box,.sign,.task,.content_rule,.gift_user,.van-action-sheet__item{
   background-color:#333 !important;
   background:#333 !important;
 }
