@@ -113,7 +113,7 @@ html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign
   background-color:#333 !important;
   background:#333 !important;
 }
-.van-tab,.card_tit p,.card_m1 div,.comment_head>span,.van-action-sheet__cancel,.list_wrap>p,.show_message p,.show_message span,.mine_box p,.item>p,.sign_box>p,.gift_user{color:#eee !important}
+.van-tab,.card_tit p,.card_m1 div,.comment_head>span,.van-action-sheet__cancel,.list_wrap>p,.show_message p,.show_message span,.mine_box p,.item>p,.sign_box>p,.gift_user,.comment_head .ac{color:#eee !important}
 .sign_box>p b{color:#ff0 !important}
 .card_m1 div a,.show_message a{color:#999 !important}
 .card_item,.post_box,.comment_head,.mine_box,.btn1,.btn2,.top_box,.sign,.task{-webkit-box-shadow:0 2px 15px #777 !important}
