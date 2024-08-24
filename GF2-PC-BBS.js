@@ -10,7 +10,7 @@
 // @run-at      document-end
 // @version     0.0.1
 // @author      Mirco
-// @description 2024/8/24 08:13:03
+// @description 拉伸至宽屏+黑暗模式
 // ==/UserScript==
 
 GM_addStyle(`
