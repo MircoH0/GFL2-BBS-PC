@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        追放官方社区PC页面适配
+// @name        追放官方社区电脑宽屏页面适配
 // @namespace   GFL2-PC-BBS
 // @license     MIT
 // @icon        https://community.cdn.sunborngame.com/prod/emoji/%E8%AE%A9%E6%88%91%E7%9C%8B%E7%9C%8B.jpg
@@ -9,9 +9,9 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @run-at      document-end
-// @version     0.0.3
+// @version     0.0.13
 // @author      Mirco
-// @description 拉伸至宽屏+明暗模式切换+自定义背景
+// @description 拉伸页面至宽屏+明暗模式切换+自定义背景
 // ==/UserScript==
 
 //----------布局调整----------
@@ -102,6 +102,8 @@ GM_addStyle(`
 /*--搜索页--*/
 .fire_box{width:unset !important}
 
+/*登录页*/
+.login_content{max-width:unset !important}
 
 `);
 
@@ -119,25 +121,26 @@ function switch_dark_bright(){
 if (GM_getValue("darkmode") == true){
   GM_addStyle(`
 
-html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign_box{
+html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign_box,.mine_box .data_box{
   background-color:#444 !important;
   color:#eee !important;
 }
 
 .nav_con,.van-tabs__nav,.index_news,.conditions1,.card_item,.van-button--primary,.van-button--plain,.comment_head,.post_box,.van-action-sheet__cancel
 ,.list_wrap li,.van-list,.mine_box,.btn1,.btn2,.t_box>div,.item,.w-e-toolbar,.w-e-text-container,.top_box,.sign,.task,.content_rule,.gift_user,.van-action-sheet__item
-,.content .van-cell,.content .head1 select,.van-search__content{
+,.content .van-cell,.content .head1 select,.van-search__content,.user_box,.user_box .user_item input,.type_box,.head_item,.van-dialog,.van-button--default{
   background-color:#333 !important;
   background:#333 !important;
 }
 
 .van-tab,.card_tit p,.card_m1 div,.comment_head>span,.van-action-sheet__cancel,.list_wrap>p,.show_message p,.show_message span,.mine_box p
-,.item>p,.sign_box>p,.gift_user,.comment_head .ac,.van-field__control,.content .head1 select{color:#eee !important}
+,.item>p,.sign_box>p,.gift_user,.comment_head .ac,.van-field__control,.content .head1 select,.card_con_reply p>i>i,.mine_box .data_box span,.van-button--default{color:#eee !important}
 
 .sign_box>p b{color:#ff0 !important}
 .card_m1 div a,.show_message a{color:#999 !important}
-.card_item,.post_box,.comment_head,.mine_box,.btn1,.btn2,.top_box,.sign,.task,.content .van-field,.content #div1{-webkit-box-shadow:0 2px 15px #777 !important}
+.card_item,.post_box,.comment_head,.mine_box,.btn1,.btn2,.top_box,.sign,.task,.content .van-field,.content #div1,.user_box,.type_box,.head_item{-webkit-box-shadow:0 2px 15px #777 !important}
 .pc_right_bt a{color:#444 !important}
+.van-dialog__confirm{color:#e02 !important}
 .img_popup{background-color:transparent !important}
 
 `);
@@ -159,17 +162,19 @@ function mod_bg(){
 if(GM_getValue("bg_url") != undefined && GM_getValue("bg_url") != "" && GM_getValue("bg_url") != null){
   GM_addStyle(`
 
-body{
+html{
   background-image:url(${GM_getValue("bg_url")});
   background-attachment: fixed;
   background-size: cover;
-  height:auto;
-  min-height:100%;
 }
-.main{
+body,.van-search,.searc_box{background-color:unset !important}
+/*.main{
   backdrop-filter:blur(3px);
   min-height:100%;
-}
+}*/
+
+.head_pc,.head,.content,.searr_box,.van-button{opacity:0.98}
+.index_con img,.card_item img{opacity:1}
 
 `);
 }
