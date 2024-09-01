@@ -11,7 +11,7 @@
 // @grant       GM_notification
 // @version     0.1.0
 // @author      Mirco
-// @description 拉宽页面+明暗模式切换+自定义背景+自动隐藏回复输入框
+// @description 各种各样的页面调整
 // ==/UserScript==
 
 
