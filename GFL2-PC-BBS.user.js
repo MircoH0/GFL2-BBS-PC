@@ -1,15 +1,15 @@
 // ==UserScript==
-// @name        追放官方社区电脑宽屏页面适配
+// @name        追放官方社区移动版电脑宽屏页面适配
 // @namespace   GFL2-PC-BBS
 // @license     MIT
 // @icon        https://community.cdn.sunborngame.com/prod/emoji/%E8%AE%A9%E6%88%91%E7%9C%8B%E7%9C%8B.jpg
-// @match       https://gf2-bbs.sunborngame.com/*
+// @match       https://gf2-bbs.sunborngame.com/m/*
 // @grant       GM_addStyle
 // @grant       GM_registerMenuCommand
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @run-at      document-end
-// @version     0.0.13
+// @version     0.0.17
 // @author      Mirco
 // @description 拉伸页面至宽屏+明暗模式切换+自定义背景
 // ==/UserScript==
@@ -43,6 +43,11 @@ GM_addStyle(`
 .content .tab_box_fixed{
   max-width:calc(100% - 4rem) !important;
   min-width:calc(100% - 4rem);
+}
+.card_item .card_m .img_box{display:unset !important}
+.card_item .card_m .img_box div{
+  display:inline-block;
+  margin-right:5px;
 }
 
 /*--帖子页--*/
@@ -80,6 +85,7 @@ GM_addStyle(`
 /*--通知页--*/
 .van-list .message_item{width:98% !important}
 .message_item .message{width:calc(100% - 0.6rem) !important}
+.message_item .message .me_con{width:unset !important}
 .show_message{
   width:50% !important;
   height:70% !important;
@@ -88,10 +94,11 @@ GM_addStyle(`
 
 /*--信息卡页--*/
 .mine_box{width:90% !important}
-.top_img{
-  height:2rem;
+.top .top_img{
+  height:2.9rem !important;
   width:100% !important;
 }
+.content .van-list{margin-top:unset !important}
 
 /*--兑换页--*/
 .items{width:unset !important}
@@ -137,11 +144,14 @@ html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign
 ,.item>p,.sign_box>p,.gift_user,.comment_head .ac,.van-field__control,.content .head1 select,.card_con_reply p>i>i,.mine_box .data_box span,.van-button--default{color:#eee !important}
 
 .sign_box>p b{color:#ff0 !important}
+.sign_box{background:unset !important}
 .card_m1 div a,.show_message a{color:#999 !important}
 .card_item,.post_box,.comment_head,.mine_box,.btn1,.btn2,.top_box,.sign,.task,.content .van-field,.content #div1,.user_box,.type_box,.head_item{-webkit-box-shadow:0 2px 15px #777 !important}
 .pc_right_bt a{color:#444 !important}
 .van-dialog__confirm{color:#e02 !important}
 .img_popup{background-color:transparent !important}
+
+.login_box input{color:#000 !important}
 
 `);
 }
