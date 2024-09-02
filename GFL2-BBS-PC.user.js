@@ -202,7 +202,7 @@ function adjust_layout() {
 }
 
 
-  //----------主页滚动图调整----------
+//----------主页滚动图调整----------
 
 function main_page_banner_adjust() {
     if (document.querySelector(".conditions1") != null && document.querySelector("#mod_index_news") == null) {
@@ -392,10 +392,10 @@ function add_img_pop_btns() {
 
 //----------贴内回复自动切换成最早----------
 
-function reply_early_seq () {
-	if (document.querySelectorAll(".comment_head div span")[0] != null) {
-		document.querySelectorAll(".comment_head div span")[0].click();
-	}
+function reply_early_seq() {
+    if (document.querySelectorAll(".comment_head div span")[0] != null) {
+        document.querySelectorAll(".comment_head div span")[0].click();
+    }
 }
 
 
@@ -404,18 +404,18 @@ function reply_early_seq () {
 function big_pic_for_main_page() {
     document.querySelectorAll(".img_box img").forEach(function (img) {
         if (img.classList.contains("clickimg") == false) {
-			img.style.cursor = "zoom-in";
+            img.style.cursor = "zoom-in";
             img.addEventListener("click", function (event) {
                 event.stopPropagation();
-				if (this.style.maxHeight == ""){
-					this.parentElement.style.height = "unset";
-					this.style.maxHeight = "unset";
-					this.style.cursor = "zoom-out";
-				}else{
-					this.parentElement.style.height = "";
-					this.style.maxHeight = "";
-					this.style.cursor = "zoom-in";
-				}
+                if (this.style.maxHeight == "") {
+                    this.parentElement.style.height = "unset";
+                    this.style.maxHeight = "unset";
+                    this.style.cursor = "zoom-out";
+                } else {
+                    this.parentElement.style.height = "";
+                    this.style.maxHeight = "";
+                    this.style.cursor = "zoom-in";
+                }
                 //console.log(this.src);
             });
             img.classList.add("clickimg");
@@ -441,9 +441,9 @@ function add_plugin_setting_page() {
         if (document.querySelector("#mod_setting_btn") == null) {
             document.querySelector(".main")?.appendChild(temp_btn);
         }
-		mod_div.querySelector("fieldset[name=\"bg\"] input[name=\"b64\"]").addEventListener("change",function (){
-			mod_div.querySelector("#mod_set_img").src = this.value;
-		});
+        /* mod_div.querySelector("fieldset[name=\"bg\"] input[name=\"b64\"]").addEventListener("change",function (){
+        mod_div.querySelector("#mod_set_img").src = this.value;
+        }); */
         temp_btn.addEventListener("click", function () {
             if (mod_div.style.display == "none") {
                 mod_div.querySelectorAll("fieldset[name]").forEach(function (item_set) {
@@ -490,18 +490,22 @@ function add_plugin_setting_page() {
                         };
                         reader.readAsDataURL(temp_bgfile.files[0]);
                     }
-					
+
                 });
                 temp_bgfile.click();
             });
             mod_div.querySelector("#mod_set_img").addEventListener("click", function (sender) {
                 this.src = "";
                 mod_div.querySelector("fieldset[name=\"bg\"] input[name=\"b64\"]").value = "";
-				mod_div.querySelector("#mod_set_imgsize").innerHTML = "";
+                mod_div.querySelector("#mod_set_imgsize").innerHTML = "";
             });
-			mod_div.querySelector("#mod_set_img").onload = function () {
-				mod_div.querySelector("#mod_set_imgsize").innerHTML = `${mod_div.querySelector("#mod_set_img").naturalWidth} × ${mod_div.querySelector("#mod_set_img").naturalHeight}`;
-			};
+            mod_div.querySelector("#mod_set_img").onload = function () {
+                mod_div.querySelector("#mod_set_imgsize").innerHTML = `${mod_div.querySelector("#mod_set_img").naturalWidth} × ${mod_div.querySelector("#mod_set_img").naturalHeight}`;
+                mod_div.querySelector("#mod_set_p_loadbg").style.display = "none";
+            };
+            mod_div.querySelector("#mod_set_img").onerror = function () {
+                mod_div.querySelector("#mod_set_p_loadbg").style.display = "block";
+            };
         }
     }
 }
@@ -525,11 +529,12 @@ const setting_page = `
 	<label><input type="checkbox" name="img_btns">查看大图界面添加长图放大、设为背景功能</label>
     <label><input type="checkbox" name="seq">回复默认正序显示</label>
   </fieldset>
-  <fieldset name="bg">
+  <fieldset name="bg" style="display:flex;flex-direction: column;">
     <legend><label><input type="checkbox" name="change">背景图片</label></legend>
     <label>地址<input type="search" name="url"></label>
     <p>注意：地址需允许外链或者是社区内的图片</p>
-    <label><input type="checkbox" name="local">优先使用本地图片<button id="mod_set_p_loadbg">加载</button><input type="hidden" name="b64"></label>
+    <label><input type="checkbox" name="local">优先使用本地图片<input type="hidden" name="b64"></label>
+	<button id="mod_set_p_loadbg">加载本地图片</button>
     <img id="mod_set_img" title="点击取消加载">
 	<span id="mod_set_imgsize"></span>
   </fieldset>
@@ -636,7 +641,7 @@ GM_addStyle(`
 }
 #mod_setting_panel #mod_set_img{
   max-height:100px;
-  max-width:160px;
+  max-width:100%;
   display:block;
   margin:0 auto;
   cursor:pointer;
@@ -674,30 +679,30 @@ function waitForObj(selector, callback, active_once = false, node = document) {
 
 function waitForObjs() {
     //if (location.pathname.startsWith("/threadInfo")) {
-        if (mod_setting.post.hide_input) {
-            waitForObj(".reply_con1", add_hide_reply_btn);
-        }
-        if (mod_setting.post.img_btns) {
-            waitForObj(".img_popup", add_img_pop_btns);
-        }
-        if (mod_setting.post.seq) {
-            waitForObj(".van-list .card_item", reply_early_seq, true);
-        }
-    //}
+	//}	
+    if (mod_setting.post.hide_input) {
+        waitForObj(".reply_con1", add_hide_reply_btn);
+    }
+    if (mod_setting.post.img_btns) {
+        waitForObj(".img_popup", add_img_pop_btns);
+    }
+    if (mod_setting.post.seq) {
+        waitForObj(".van-list .card_item", reply_early_seq, true);
+    }
     if (mod_setting.layout.wide) {
         waitForObj(".conditions1", main_page_banner_adjust, true);
     }
-	if (mod_setting.layout.main_bigpic) {
-		waitForObj(".img_box img", big_pic_for_main_page);
-	}
-	waitForObj(".main",add_plugin_setting_page,true);
+    if (mod_setting.layout.main_bigpic) {
+        waitForObj(".img_box img", big_pic_for_main_page);
+    }
+    waitForObj(".main", add_plugin_setting_page, true);
 }
 
 var mod_setting = GM_getValue("settings", {
     "layout": {
         "wide": false,
         "dark": false,
-		"main_bigpic": false
+        "main_bigpic": false
     },
     "bg": {
         "change": false,
