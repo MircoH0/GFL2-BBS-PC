@@ -216,16 +216,16 @@ function main_page_banner_adjust() {
 
 //----------明暗模式----------
 
-function dark_mode() {
-    if (mod_setting.layout.dark == true) {
+function custom_color() {
+    if (mod_setting.layout.change_color == true) {
         GM_addStyle(`
 
 html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign_box,.content_l
 ,.hot_words>.fire_items div,.van-list,.content_m,.mine_b>.mine_bl,.mine_b>.mine_br,.content_u>.mask>.head_box
 ,.user_box,.content_m12>.reply_con1>.reply_con_child,.content_m12>.reply_con1>.reply_con_child .w-e-text-container{
-  background:#444 !important;
-  background-color:#444 !important;
-  color:#eee !important;
+  background:${mod_setting.layout.bg_color}/*#444*/ !important;
+  background-color:${mod_setting.layout.bg_color}/*#444*/ !important;
+  color:${mod_setting.layout.text_color}/*#eee*/ !important;
 }
 
 .index_news,.conditions1,.card_item,.van-button--primary,.van-button--plain,.comment_head,.post_box
@@ -234,13 +234,13 @@ html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign
 ,.van-search__content,.user_box .user_item input,.type_box,.head_item,.van-dialog,.van-button--default
 ,.content_r>.btns,.content_m12>.reply_con1,.message_pro,.hot_words
 ,.icon_box{
-  background-color:#333 !important;
-  background:#333 !important;
+  background-color:${mod_setting.layout.fore_color}/*#333*/ !important;
+  background:${mod_setting.layout.fore_color}/*#333*/ !important;
 }
 
 .van-tab,.card_tit p,.card_m1 div,.comment_head>span,.van-action-sheet__cancel,.list_wrap>p,.show_message p
 ,.show_message span,.mine_box p,.item>p,.sign_box>p,.gift_user,.comment_head .ac,.van-field__control
-,.content .head1 select,.card_con_reply p>i>i,.mine_box .data_box span,.van-button--default{color:#eee !important}
+,.content .head1 select,.card_con_reply p>i>i,.mine_box .data_box span,.van-button--default{color:${mod_setting.layout.text_color}/*#eee*/ !important}
 
 .sign_box>p b{color:#ff0 !important}
 .sign_box,.content{background:unset !important}
@@ -506,6 +506,11 @@ function add_plugin_setting_page() {
             mod_div.querySelector("#mod_set_img").onerror = function () {
                 mod_div.querySelector("#mod_set_p_loadbg").style.display = "block";
             };
+			mod_div.querySelector("#mod_set_p_resetcolor").addEventListener("click", function () {
+				mod_div.querySelector("fieldset[name=\"layout\"] input[name=\"bg_color\"]").value = "#444444";
+				mod_div.querySelector("fieldset[name=\"layout\"] input[name=\"fore_color\"]").value = "#333333";
+				mod_div.querySelector("fieldset[name=\"layout\"] input[name=\"text_color\"]").value = "#eeeeee";
+			});
         }
     }
 }
@@ -517,11 +522,17 @@ const setting_page = `
 <button id="mod_set_p_cancel">×</button>
 <br>
 <div>
-  <fieldset name="layout">
+  <fieldset name="layout" style="display:flex;flex-direction: column;">
     <legend>布局与颜色</legend>
     <label><input type="checkbox" name="wide">宽屏布局</label>
-    <label><input type="checkbox" name="dark">暗色模式</label>
 	<label><input type="checkbox" name="main_bigpic">主页图片点击放大</label>
+    <label><input type="checkbox" name="change_color">自定义颜色</label>
+	<div style="display:flex">
+	<label>背景色<input type="color" name="bg_color"></label>
+	<label>前景色<input type="color" name="fore_color"></label>
+	<label>文字色<input type="color" name="text_color"></label>
+	</div>
+	<button id="mod_set_p_resetcolor">设置颜色为暗色模式</button>
   </fieldset>
   <fieldset name="post">
     <legend>帖子页面</legend>
@@ -578,6 +589,7 @@ GM_addStyle(`
   background-color:#eee5 !important;
   backdrop-filter:blur(15px);
   text-shadow: 0 0 20px #999;
+  font-family:msyh;
 }
 #mod_setting_panel>span{
 	position:fixed;
@@ -693,6 +705,7 @@ function waitForObjs() {
         waitForObj(".conditions1", main_page_banner_adjust, true);
     }
     if (mod_setting.layout.main_bigpic) {
+		GM_addStyle(`.card_item .card_m .img_box{display:unset !important}`);
         waitForObj(".img_box img", big_pic_for_main_page);
     }
     waitForObj(".main", add_plugin_setting_page, true);
@@ -701,7 +714,10 @@ function waitForObjs() {
 var mod_setting = GM_getValue("settings", {
     "layout": {
         "wide": false,
-        "dark": false,
+        "change_color": false,
+		"bg_color": "#444444",
+		"fore_color": "#333333",
+		"text_color": "#eeeeee",
         "main_bigpic": false
     },
     "bg": {
@@ -724,8 +740,9 @@ function save_setting() {
 (function () {
     'use strict';
 
+	console.log(mod_setting);
     adjust_layout();
-    dark_mode();
+    custom_color();
     set_bg_img();
     waitForObjs();
 
