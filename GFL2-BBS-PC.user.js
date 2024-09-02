@@ -286,7 +286,7 @@ body{
   background:unset !important;
   backdrop-filter:blur(3px);
 }
-.main,.van-button,.post_box{opacity:0.95}
+.home_main,.van-button,.post_box{opacity:0.95}
 .index_con img,.card_item img{opacity:1}
 .message_item,.strage_item{background:#4444}
 `);
@@ -589,7 +589,6 @@ GM_addStyle(`
   background-color:#eee5 !important;
   backdrop-filter:blur(15px);
   text-shadow: 0 0 20px #999;
-  font-family:msyh;
 }
 #mod_setting_panel>span{
 	position:fixed;
