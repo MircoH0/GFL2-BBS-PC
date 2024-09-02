@@ -32,7 +32,7 @@ function adjust_layout() {
 }
 .content .content_main{
 	width:98% !important;
-	height:90% !important;
+	height:89% !important;
 }
 .content_main .content_m{
   padding:unset !important;
