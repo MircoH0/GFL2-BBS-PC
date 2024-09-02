@@ -286,7 +286,7 @@ body{
   background:unset !important;
   backdrop-filter:blur(3px);
 }
-.home_main,.van-button,.post_box{opacity:0.95}
+.main,.van-button,.post_box{opacity:0.95}
 .index_con img,.card_item img{opacity:1}
 .message_item,.strage_item{background:#4444}
 `);
