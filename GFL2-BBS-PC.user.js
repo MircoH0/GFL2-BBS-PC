@@ -9,6 +9,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
+// @run-at      document-end
 // @version     0.1.0
 // @author      Mirco
 // @description 各种各样的页面调整
@@ -29,7 +30,10 @@ function adjust_layout() {
   max-width:unset !important;
   height:100%;
 }
-.content .content_main{width:98% !important}
+.content .content_main{
+	width:98% !important;
+	height:90% !important;
+}
 .content_main .content_m{
   padding:unset !important;
   width:calc(100% - 480px) !important;
@@ -114,7 +118,7 @@ function adjust_layout() {
   border-radius:20px !important;
 }
 .content_m12>.comment_head{
-  width:calc(100% - 44px) !important;
+  width:calc(100% - 50px) !important;
   border-radius:5px;
 }
 .content_m12>.van-list{width:100% !important}
@@ -289,7 +293,7 @@ body{
         if (mod_setting.layout.dark == true) {
             GM_addStyle(`
 			.content_main>.content_l,#hide_reply_input,.message_item,.strage_item{
-				filter:drop-shadow(0 0 10px #000e);
+				filter:drop-shadow(0 0 5px #000e);
 				text-shadow:0 0 10px #fffe;
 				}
 			`);
@@ -297,7 +301,7 @@ body{
             GM_addStyle(`
 			.content_main>.content_l,#hide_reply_input,.message_item,.strage_item{
 				text-shadow:0 0 10px #fffe;
-				filter:drop-shadow(0 0 10px #fffe);
+				filter:drop-shadow(0 0 5px #fffe);
 				}
 			`);
         }
@@ -326,7 +330,7 @@ function add_hide_reply_btn() {
         temp_div.parentElement.insertBefore(temp_btn, temp_div /*.nextSibling*/);
         //自动按下
         document.querySelector("#hide_reply_input")?.click();
-        GM_addStyle(`.content_m12>.reply_con1{margin:unset !important}`);
+        GM_addStyle(`.content_m12>.reply_con1{margin:0 auto !important}`);
     }
 }
 
@@ -392,6 +396,31 @@ function reply_early_seq () {
 	if (document.querySelectorAll(".comment_head div span")[0] != null) {
 		document.querySelectorAll(".comment_head div span")[0].click();
 	}
+}
+
+
+//----------首页中查看大图----------
+
+function big_pic_for_main_page() {
+    document.querySelectorAll(".img_box img").forEach(function (img) {
+        if (img.classList.contains("clickimg") == false) {
+			img.style.cursor = "zoom-in";
+            img.addEventListener("click", function (event) {
+                event.stopPropagation();
+				if (this.style.maxHeight == ""){
+					this.parentElement.style.height = "unset";
+					this.style.maxHeight = "unset";
+					this.style.cursor = "zoom-out";
+				}else{
+					this.parentElement.style.height = "";
+					this.style.maxHeight = "";
+					this.style.cursor = "zoom-in";
+				}
+                //console.log(this.src);
+            });
+            img.classList.add("clickimg");
+        }
+    });
 }
 
 
@@ -480,7 +509,7 @@ function add_plugin_setting_page() {
 const setting_icon = `data:image/svg+xml;base64,PHN2ZyBkYXRhLXYtYzFhZmFhNDU9IiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjUiIGhlaWdodD0iMjUiIHZpZXdCb3g9IjAgMCAyNCAyNCIgY2xhc3M9InN2ZyI+PGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZWVlIiBzdHJva2Utd2lkdGg9IjEuNSI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMyIvPjxwYXRoIGQ9Ik0xMy43NjUgMi4xNTJDMTMuMzk4IDIgMTIuOTMyIDIgMTIgMmMtLjkzMiAwLTEuMzk4IDAtMS43NjUuMTUyYTIgMiAwIDAgMC0xLjA4MyAxLjA4M2MtLjA5Mi4yMjMtLjEyOS40ODQtLjE0My44NjNhMS42MTcgMS42MTcgMCAwIDEtLjc5IDEuMzUzYTEuNjE3IDEuNjE3IDAgMCAxLTEuNTY3LjAwOGMtLjMzNi0uMTc4LS41NzktLjI3Ni0uODItLjMwOGEyIDIgMCAwIDAtMS40NzguMzk2QzQuMDQgNS43OSAzLjgwNiA2LjE5MyAzLjM0IDdjLS40NjYuODA3LS43IDEuMjEtLjc1MSAxLjYwNWEyIDIgMCAwIDAgLjM5NiAxLjQ3OWMuMTQ4LjE5Mi4zNTUuMzUzLjY3Ni41NTVjLjQ3My4yOTcuNzc3LjgwMy43NzcgMS4zNjFjMCAuNTU4LS4zMDQgMS4wNjQtLjc3NyAxLjM2Yy0uMzIxLjIwMy0uNTI5LjM2NC0uNjc2LjU1NmEyIDIgMCAwIDAtLjM5NiAxLjQ3OWMuMDUyLjM5NC4yODUuNzk4Ljc1IDEuNjA1Yy40NjcuODA3LjcgMS4yMSAxLjAxNSAxLjQ1M2EyIDIgMCAwIDAgMS40NzkuMzk2Yy4yNC0uMDMyLjQ4My0uMTMuODE5LS4zMDhhMS42MTcgMS42MTcgMCAwIDEgMS41NjcuMDA4Yy40ODMuMjguNzcuNzk1Ljc5IDEuMzUzYy4wMTQuMzguMDUuNjQuMTQzLjg2M2EyIDIgMCAwIDAgMS4wODMgMS4wODNDMTAuNjAyIDIyIDExLjA2OCAyMiAxMiAyMmMuOTMyIDAgMS4zOTggMCAxLjc2NS0uMTUyYTIgMiAwIDAgMCAxLjA4My0xLjA4M2MuMDkyLS4yMjMuMTI5LS40ODMuMTQzLS44NjNjLjAyLS41NTguMzA3LTEuMDc0Ljc5LTEuMzUzYTEuNjE3IDEuNjE3IDAgMCAxIDEuNTY3LS4wMDhjLjMzNi4xNzguNTc5LjI3Ni44MTkuMzA4YTIgMiAwIDAgMCAxLjQ3OS0uMzk2Yy4zMTUtLjI0Mi41NDgtLjY0NiAxLjAxNC0xLjQ1M2MuNDY2LS44MDcuNy0xLjIxLjc1MS0xLjYwNWEyIDIgMCAwIDAtLjM5Ni0xLjQ3OWMtLjE0OC0uMTkyLS4zNTUtLjM1My0uNjc2LS41NTVBMS42MTcgMS42MTcgMCAwIDEgMTkuNTYyIDEyYzAtLjU1OC4zMDQtMS4wNjQuNzc3LTEuMzZjLjMyMS0uMjAzLjUyOS0uMzY0LjY3Ni0uNTU2YTIgMiAwIDAgMCAuMzk2LTEuNDc5Yy0uMDUyLS4zOTQtLjI4NS0uNzk4LS43NS0xLjYwNWMtLjQ2Ny0uODA3LS43LTEuMjEtMS4wMTUtMS40NTNhMiAyIDAgMCAwLTEuNDc5LS4zOTZjLS4yNC4wMzItLjQ4My4xMy0uODIuMzA4YTEuNjE3IDEuNjE3IDAgMCAxLTEuNTY2LS4wMDhhMS42MTcgMS42MTcgMCAwIDEtLjc5LTEuMzUzYy0uMDE0LS4zOC0uMDUtLjY0LS4xNDMtLjg2M2EyIDIgMCAwIDAtMS4wODMtMS4wODNaIi8+PC9nPjwvc3ZnPg==`;
 
 const setting_page = `
-<center>页面调整设置</center>
+<span>页面调整设置 - V${GM_info.script.version}</span>
 <button id="mod_set_p_cancel">×</button>
 <br>
 <div>
@@ -488,6 +517,7 @@ const setting_page = `
     <legend>布局与颜色</legend>
     <label><input type="checkbox" name="wide">宽屏布局</label>
     <label><input type="checkbox" name="dark">暗色模式</label>
+	<label><input type="checkbox" name="main_bigpic">主页图片点击放大</label>
   </fieldset>
   <fieldset name="post">
     <legend>帖子页面</legend>
@@ -499,16 +529,15 @@ const setting_page = `
     <legend><label><input type="checkbox" name="change">背景图片</label></legend>
     <label>地址<input type="search" name="url"></label>
     <p>注意：地址需允许外链或者是社区内的图片</p>
-    <label><input type="checkbox" name="local">使用本地图片<button id="mod_set_p_loadbg">加载</button><input type="hidden" name="b64"></label>
+    <label><input type="checkbox" name="local">优先使用本地图片<button id="mod_set_p_loadbg">加载</button><input type="hidden" name="b64"></label>
     <img id="mod_set_img" title="点击取消加载">
 	<span id="mod_set_imgsize"></span>
   </fieldset>
 </div>
 <div>
   <button id="mod_set_p_ok">保存设置并刷新页面</button>
-  <span>脚本版本: ${GM_info.script.version} - 脚本引擎: ${GM_info.scriptHandler} ${GM_info.version}</span>
-  <span>运行环境: ${GM_info.platform.browserName} ${GM_info.platform.browserVersion} (${GM_info.platform.os} ${GM_info.platform.arch})</span>
-  <span>Code by Mirco</span>
+  <span>${GM_info.platform.browserName} ${GM_info.platform.browserVersion} (${GM_info.platform.os} ${GM_info.platform.arch}) - ${GM_info.scriptHandler} ${GM_info.version}</span>
+  <span>Code by <a href="../user?id=25395">Mirco</a></span>
 </div>
 
 `;
@@ -539,14 +568,16 @@ GM_addStyle(`
   z-index:1901;
   border:1px #ddd6;
   border-style:solid;
-  border-radius:10px;
+  border-radius:5px;
   box-shadow:4px 4px #ccc2;
   background-color:#eee5 !important;
   backdrop-filter:blur(15px);
   text-shadow: 0 0 20px #999;
 }
-#mod_setting_panel>center{
-	font-size:25px;
+#mod_setting_panel>span{
+	position:fixed;
+	top:1px;
+	left:15px;
 	cursor:default;
 }
 #mod_setting_panel input{
@@ -566,7 +597,7 @@ GM_addStyle(`
 }
 #mod_setting_panel>div>#mod_set_p_ok{margin:20px 0;}
 #mod_setting_panel>div button{
-  background-color:#eee;
+  background-color:#ddd;
   color:#000;
   padding:0 5px;
   margin:0 5px;
@@ -579,7 +610,7 @@ GM_addStyle(`
   top:0px;
   right:0px;
   cursor:pointer;
-  background-color:transparent;
+  background-color:#F26C1C55;
   border:0;
   width:50px;
   font-size:15px;
@@ -595,7 +626,7 @@ GM_addStyle(`
   cursor:default;
 }
 #mod_setting_panel>div>span>a,#mod_setting_panel>div>span>a:visited{
-  color:#777;
+  color:#222;
 }
 #mod_setting_panel fieldset{
   padding:5px 10px;
@@ -656,13 +687,17 @@ function waitForObjs() {
     if (mod_setting.layout.wide) {
         waitForObj(".conditions1", main_page_banner_adjust, true);
     }
+	if (mod_setting.layout.main_bigpic) {
+		waitForObj(".img_box img", big_pic_for_main_page);
+	}
 	waitForObj(".main",add_plugin_setting_page,true);
 }
 
 var mod_setting = GM_getValue("settings", {
     "layout": {
         "wide": false,
-        "dark": false
+        "dark": false,
+		"main_bigpic": false
     },
     "bg": {
         "change": false,
