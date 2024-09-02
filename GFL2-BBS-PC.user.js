@@ -639,7 +639,7 @@ GM_addStyle(`
 	}
 #mod_setting_panel>div>span{
   text-align:center;
-  font-size:5px;
+  font-size:10px;
   cursor:default;
 }
 #mod_setting_panel>div>span>a,#mod_setting_panel>div>span>a:visited{
