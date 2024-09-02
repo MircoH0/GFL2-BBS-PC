@@ -9,7 +9,6 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @run-at      document-end
 // @version     0.1.0
 // @author      Mirco
 // @description 各种各样的页面调整
@@ -544,7 +543,7 @@ const setting_page = `
     <legend><label><input type="checkbox" name="change">背景图片</label></legend>
     <label>图片地址<input type="search" name="url"></label>
     <p>注意：地址需允许外链或者是社区内的图片</p>
-    <label><input type="checkbox" name="local">优先使用本地图片<input type="hidden" name="b64"></label>
+    <label><input type="checkbox" name="local">使用本地图片<input type="hidden" name="b64"></label>
 	<button id="mod_set_p_loadbg">加载本地图片</button>
     <img id="mod_set_img" title="点击取消加载">
 	<span id="mod_set_imgsize"></span>
