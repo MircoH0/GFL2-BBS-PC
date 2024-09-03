@@ -9,7 +9,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.1.0
+// @version     0.1.3
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -117,7 +117,7 @@ function adjust_layout() {
   border-radius:20px !important;
 }
 .content_m12>.comment_head{
-  width:calc(100% - 50px) !important;
+  width:calc(100% - 3%) !important;
   border-radius:5px;
 }
 .content_m12>.van-list{width:100% !important}
@@ -232,7 +232,7 @@ html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign
 ,.t_box>div,.sign,.task,.content_rule,.gift_user,.van-action-sheet__item,.content .van-cell,.content .head1 select
 ,.van-search__content,.user_box .user_item input,.type_box,.head_item,.van-dialog,.van-button--default
 ,.content_r>.btns,.content_m12>.reply_con1,.message_pro,.hot_words
-,.icon_box{
+,.icon_box,.get_box{
   background-color:${mod_setting.layout.fore_color}/*#333*/ !important;
   background:${mod_setting.layout.fore_color}/*#333*/ !important;
 }
@@ -308,7 +308,7 @@ body{
 }
 
 
-//----------隐藏回复框按钮----------
+//----------隐藏帖子页回复框按钮----------
 
 function add_hide_reply_btn() {
     if (document.querySelector(".reply_con1") != null && document.querySelector("#hide_reply_input") == null) {
@@ -333,6 +333,14 @@ function add_hide_reply_btn() {
     }
 }
 
+//----------隐藏帖子页右边边栏----------
+
+function hide_content_r_in_post() {
+	if(document.querySelector(".content_r").style.display != "none") {
+		document.querySelector(".content_r").style.display = "none";
+		document.querySelector(".content_m12").style = "width:calc(100% - 60px) !important";
+	}
+}
 
 //----------帖子内点击图片查看附加功能----------
 
@@ -452,6 +460,10 @@ function add_plugin_setting_page() {
                         } else {
                             item.value = mod_setting[item_set.name][item.name];
                         }
+						var event = new Event('input', {
+						    bubbles: true
+						});
+						item.dispatchEvent(event);
                     });
                 });
                 mod_div.querySelector("#mod_set_img").src = mod_div.querySelector("input[name=\"b64\"]").value;
@@ -510,14 +522,13 @@ function add_plugin_setting_page() {
 				mod_div.querySelector("fieldset[name=\"layout\"] input[name=\"fore_color\"]").value = "#333333";
 				mod_div.querySelector("fieldset[name=\"layout\"] input[name=\"text_color\"]").value = "#eeeeee";
 			});
-/* 			mod_div.querySelector("fieldset[name=\"layout\"] input[name=\"wide_percent\"]").addEventListener("change", function () {
-			    mod_div.querySelector("#mod_set_wvalue").innerHTML = this.value + "%";
-			}); */
+ 			 mod_div.querySelector("fieldset[name=\"layout\"] input[name=\"wide_percent\"]").addEventListener("input", function () {
+			    mod_div.querySelector("#mod_set_wvalue").innerHTML = this.value + "% 宽度";
+			}); 
         }
     }
 }
 
-const setting_icon = `data:image/svg+xml;base64,PHN2ZyBkYXRhLXYtYzFhZmFhNDU9IiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjUiIGhlaWdodD0iMjUiIHZpZXdCb3g9IjAgMCAyNCAyNCIgY2xhc3M9InN2ZyI+PGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZWVlIiBzdHJva2Utd2lkdGg9IjEuNSI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMyIvPjxwYXRoIGQ9Ik0xMy43NjUgMi4xNTJDMTMuMzk4IDIgMTIuOTMyIDIgMTIgMmMtLjkzMiAwLTEuMzk4IDAtMS43NjUuMTUyYTIgMiAwIDAgMC0xLjA4MyAxLjA4M2MtLjA5Mi4yMjMtLjEyOS40ODQtLjE0My44NjNhMS42MTcgMS42MTcgMCAwIDEtLjc5IDEuMzUzYTEuNjE3IDEuNjE3IDAgMCAxLTEuNTY3LjAwOGMtLjMzNi0uMTc4LS41NzktLjI3Ni0uODItLjMwOGEyIDIgMCAwIDAtMS40NzguMzk2QzQuMDQgNS43OSAzLjgwNiA2LjE5MyAzLjM0IDdjLS40NjYuODA3LS43IDEuMjEtLjc1MSAxLjYwNWEyIDIgMCAwIDAgLjM5NiAxLjQ3OWMuMTQ4LjE5Mi4zNTUuMzUzLjY3Ni41NTVjLjQ3My4yOTcuNzc3LjgwMy43NzcgMS4zNjFjMCAuNTU4LS4zMDQgMS4wNjQtLjc3NyAxLjM2Yy0uMzIxLjIwMy0uNTI5LjM2NC0uNjc2LjU1NmEyIDIgMCAwIDAtLjM5NiAxLjQ3OWMuMDUyLjM5NC4yODUuNzk4Ljc1IDEuNjA1Yy40NjcuODA3LjcgMS4yMSAxLjAxNSAxLjQ1M2EyIDIgMCAwIDAgMS40NzkuMzk2Yy4yNC0uMDMyLjQ4My0uMTMuODE5LS4zMDhhMS42MTcgMS42MTcgMCAwIDEgMS41NjcuMDA4Yy40ODMuMjguNzcuNzk1Ljc5IDEuMzUzYy4wMTQuMzguMDUuNjQuMTQzLjg2M2EyIDIgMCAwIDAgMS4wODMgMS4wODNDMTAuNjAyIDIyIDExLjA2OCAyMiAxMiAyMmMuOTMyIDAgMS4zOTggMCAxLjc2NS0uMTUyYTIgMiAwIDAgMCAxLjA4My0xLjA4M2MuMDkyLS4yMjMuMTI5LS40ODMuMTQzLS44NjNjLjAyLS41NTguMzA3LTEuMDc0Ljc5LTEuMzUzYTEuNjE3IDEuNjE3IDAgMCAxIDEuNTY3LS4wMDhjLjMzNi4xNzguNTc5LjI3Ni44MTkuMzA4YTIgMiAwIDAgMCAxLjQ3OS0uMzk2Yy4zMTUtLjI0Mi41NDgtLjY0NiAxLjAxNC0xLjQ1M2MuNDY2LS44MDcuNy0xLjIxLjc1MS0xLjYwNWEyIDIgMCAwIDAtLjM5Ni0xLjQ3OWMtLjE0OC0uMTkyLS4zNTUtLjM1My0uNjc2LS41NTVBMS42MTcgMS42MTcgMCAwIDEgMTkuNTYyIDEyYzAtLjU1OC4zMDQtMS4wNjQuNzc3LTEuMzZjLjMyMS0uMjAzLjUyOS0uMzY0LjY3Ni0uNTU2YTIgMiAwIDAgMCAuMzk2LTEuNDc5Yy0uMDUyLS4zOTQtLjI4NS0uNzk4LS43NS0xLjYwNWMtLjQ2Ny0uODA3LS43LTEuMjEtMS4wMTUtMS40NTNhMiAyIDAgMCAwLTEuNDc5LS4zOTZjLS4yNC4wMzItLjQ4My4xMy0uODIuMzA4YTEuNjE3IDEuNjE3IDAgMCAxLTEuNTY2LS4wMDhhMS42MTcgMS42MTcgMCAwIDEtLjc5LTEuMzUzYy0uMDE0LS4zOC0uMDUtLjY0LS4xNDMtLjg2M2EyIDIgMCAwIDAtMS4wODMtMS4wODNaIi8+PC9nPjwvc3ZnPg==`;
 
 const setting_page = `
 <span>页面调整设置</span>
@@ -526,7 +537,7 @@ const setting_page = `
 <div>
   <fieldset name="layout" style="display:flex;flex-direction: column;">
     <legend>布局与颜色</legend>
-    <label><input type="checkbox" name="wide">宽屏布局 <input type="range" name="wide_percent" min="75" max="99" style="flex:1"><span id="mod_set_wvalue"></span></label>
+    <label><input type="checkbox" name="wide">宽屏布局 <input type="range" name="wide_percent" min="70" max="100" step="0.2"><span id="mod_set_wvalue"></span></label>
 	<label><input type="checkbox" name="main_bigpic">主页图片点击放大</label>
     <label><input type="checkbox" name="change_color">自定义颜色</label>
 	<div style="display:flex">
@@ -541,6 +552,7 @@ const setting_page = `
     <label><input type="checkbox" name="hide_input">自动隐藏回复输入框</label>
 	<label><input type="checkbox" name="img_btns">查看大图界面添加长图放大、设为背景功能</label>
     <label><input type="checkbox" name="seq">回复默认正序显示</label>
+	<label><input type="checkbox" name="hide_cont_r">隐藏右侧边栏</label>
   </fieldset>
   <fieldset name="bg" style="display:flex;flex-direction: column;">
     <legend><label><input type="checkbox" name="change">背景图片</label></legend>
@@ -554,7 +566,7 @@ const setting_page = `
 </div>
 <div>
   <button id="mod_set_p_ok">保存设置并刷新页面</button>
-  <span>${GM_info.platform.browserName} ${GM_info.platform.browserVersion} (${GM_info.platform.os} ${GM_info.platform.arch}) - ${GM_info.scriptHandler} ${GM_info.version}</span>
+  <span>脚本加载器: ${GM_info.scriptHandler} ${GM_info.version}</span>
   <span>Ver.${GM_info.script.version} - Code by <a href="../user?id=25395">Mirco</a></span>
 </div>
 
@@ -671,6 +683,9 @@ GM_addStyle(`
 `);
 
 
+const setting_icon = `data:image/svg+xml;base64,PHN2ZyBkYXRhLXYtYzFhZmFhNDU9IiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjUiIGhlaWdodD0iMjUiIHZpZXdCb3g9IjAgMCAyNCAyNCIgY2xhc3M9InN2ZyI+PGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZWVlIiBzdHJva2Utd2lkdGg9IjEuNSI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMyIvPjxwYXRoIGQ9Ik0xMy43NjUgMi4xNTJDMTMuMzk4IDIgMTIuOTMyIDIgMTIgMmMtLjkzMiAwLTEuMzk4IDAtMS43NjUuMTUyYTIgMiAwIDAgMC0xLjA4MyAxLjA4M2MtLjA5Mi4yMjMtLjEyOS40ODQtLjE0My44NjNhMS42MTcgMS42MTcgMCAwIDEtLjc5IDEuMzUzYTEuNjE3IDEuNjE3IDAgMCAxLTEuNTY3LjAwOGMtLjMzNi0uMTc4LS41NzktLjI3Ni0uODItLjMwOGEyIDIgMCAwIDAtMS40NzguMzk2QzQuMDQgNS43OSAzLjgwNiA2LjE5MyAzLjM0IDdjLS40NjYuODA3LS43IDEuMjEtLjc1MSAxLjYwNWEyIDIgMCAwIDAgLjM5NiAxLjQ3OWMuMTQ4LjE5Mi4zNTUuMzUzLjY3Ni41NTVjLjQ3My4yOTcuNzc3LjgwMy43NzcgMS4zNjFjMCAuNTU4LS4zMDQgMS4wNjQtLjc3NyAxLjM2Yy0uMzIxLjIwMy0uNTI5LjM2NC0uNjc2LjU1NmEyIDIgMCAwIDAtLjM5NiAxLjQ3OWMuMDUyLjM5NC4yODUuNzk4Ljc1IDEuNjA1Yy40NjcuODA3LjcgMS4yMSAxLjAxNSAxLjQ1M2EyIDIgMCAwIDAgMS40NzkuMzk2Yy4yNC0uMDMyLjQ4My0uMTMuODE5LS4zMDhhMS42MTcgMS42MTcgMCAwIDEgMS41NjcuMDA4Yy40ODMuMjguNzcuNzk1Ljc5IDEuMzUzYy4wMTQuMzguMDUuNjQuMTQzLjg2M2EyIDIgMCAwIDAgMS4wODMgMS4wODNDMTAuNjAyIDIyIDExLjA2OCAyMiAxMiAyMmMuOTMyIDAgMS4zOTggMCAxLjc2NS0uMTUyYTIgMiAwIDAgMCAxLjA4My0xLjA4M2MuMDkyLS4yMjMuMTI5LS40ODMuMTQzLS44NjNjLjAyLS41NTguMzA3LTEuMDc0Ljc5LTEuMzUzYTEuNjE3IDEuNjE3IDAgMCAxIDEuNTY3LS4wMDhjLjMzNi4xNzguNTc5LjI3Ni44MTkuMzA4YTIgMiAwIDAgMCAxLjQ3OS0uMzk2Yy4zMTUtLjI0Mi41NDgtLjY0NiAxLjAxNC0xLjQ1M2MuNDY2LS44MDcuNy0xLjIxLjc1MS0xLjYwNWEyIDIgMCAwIDAtLjM5Ni0xLjQ3OWMtLjE0OC0uMTkyLS4zNTUtLjM1My0uNjc2LS41NTVBMS42MTcgMS42MTcgMCAwIDEgMTkuNTYyIDEyYzAtLjU1OC4zMDQtMS4wNjQuNzc3LTEuMzZjLjMyMS0uMjAzLjUyOS0uMzY0LjY3Ni0uNTU2YTIgMiAwIDAgMCAuMzk2LTEuNDc5Yy0uMDUyLS4zOTQtLjI4NS0uNzk4LS43NS0xLjYwNWMtLjQ2Ny0uODA3LS43LTEuMjEtMS4wMTUtMS40NTNhMiAyIDAgMCAwLTEuNDc5LS4zOTZjLS4yNC4wMzItLjQ4My4xMy0uODIuMzA4YTEuNjE3IDEuNjE3IDAgMCAxLTEuNTY2LS4wMDhhMS42MTcgMS42MTcgMCAwIDEtLjc5LTEuMzUzYy0uMDE0LS4zOC0uMDUtLjY0LS4xNDMtLjg2M2EyIDIgMCAwIDAtMS4wODMtMS4wODNaIi8+PC9nPjwvc3ZnPg==`;
+
+
 //----------其他功能性函数----------
 
 function waitForObj(selector, callback, active_once = false, node = document) {
@@ -696,6 +711,9 @@ function waitForObjs() {
     if (mod_setting.post.hide_input) {
         waitForObj(".reply_con1", add_hide_reply_btn);
     }
+	if (mod_setting.post.hide_cont_r) {
+		waitForObj(".reply_con1",hide_content_r_in_post);
+	}
     if (mod_setting.post.img_btns) {
         waitForObj(".img_popup", add_img_pop_btns);
     }
@@ -712,7 +730,7 @@ function waitForObjs() {
     waitForObj(".main", add_plugin_setting_page, true);
 }
 
-var mod_setting = GM_getValue("settings", {
+var mod_setting = {
     "layout": {
         "wide": false,
 		"wide_percent": 99,
@@ -731,9 +749,11 @@ var mod_setting = GM_getValue("settings", {
     "post": {
         "hide_input": false,
         "seq": false,
-        "img_btns": false
+        "img_btns": false,
+		"hide_cont_r": false
     }
-});
+};
+
 
 function save_setting() {
     GM_setValue("settings", mod_setting);
@@ -742,7 +762,9 @@ function save_setting() {
 (function () {
     'use strict';
 
+	mod_setting = GM_getValue("settings", mod_setting);
 	//console.log(mod_setting);
+	
     adjust_layout();
     custom_color();
     set_bg_img();
