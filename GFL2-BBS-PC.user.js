@@ -9,7 +9,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.1.3
+// @version     0.1.6
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -24,47 +24,58 @@ function adjust_layout() {
 /*---主页---*/
 
 .head .head_main{width:95% !important;}
+
 .content{
   width:100% !important;
   max-width:unset !important;
   height:100%;
 }
+
 .content .content_main{
 	width:${mod_setting.layout.wide_percent}% !important;
 	height:89% !important;
 }
+
 .content_main .content_m{
   padding:unset !important;
   width:calc(100% - 480px) !important;
 }
+
 ::-webkit-scrollbar{
   /*display:none;*/
   width:10px;
 }
+
 ::-webkit-scrollbar-thumb:hover{
   background-clip: border-box;
 }
+
 ::-webkit-scrollbar-thumb{
-  background-color:#888;
+  background-color:${mod_setting.layout.text_color};
   border-style: dashed;
   border-radius:10px;
   border-color: transparent;
   border-width: 3px;
   background-clip: padding-box;
 }
+
 ::-webkit-scrollbar-track{
   background-color:transparent;
   border-radius:10px;
 }
+
 .index_con .van-list .card_item{
 	width:98% !important;
 	cursor:default;
 }
+
 .card_item .img_box div{
   display:inline-block;
   margin-right:10px;
 }
+
 .card_item .card_m .img_box{display:unset !important}
+
 .swiper-container1{
   width:620px !important;
   margin-left:5px !important;
@@ -72,78 +83,107 @@ function adjust_layout() {
   float:right;
 
 }
+
 .index_con{margin-top:unset !important}
+
 .message_box>.message_pro{left:-45px !important}
+
 /*.pc_right_bt{z-index:-1}*/
+
 .index_news{
   border-radius:5px !important;
   width:calc(100% - 625px) !important;
   display:inline-block;
   float:left;
 }
+
 .index_con>.list_wrap{
   display:inline-block;
   width:calc(100% - 625px);
 }
+
 .sign_box{width:unset !important}
+
 .conditions1{border-radius:5px !important}
+
 .card_item{border-radius:5px !important}
 
 
 /*---帖子页---*/
 
-.content_main .post_box{left:unset !important}
+.content_main .post_box{
+	left:unset !important;
+	border-radius:5px !important;
+}
+
 .content_main .content_m12{
   left:60px !important;
   width:calc(100% - 300px) !important;
 }
+
 .content_m12>.card_item{width:97% !important}
+
 .card_m1>p{
   font-size:0.18rem !important;
   line-height:0.4rem !important;
   font-weight:bold;
 }
+
 .card_m1 .showImg{
   max-width:600px;
   max-height:600px;
 }
+
 .content_m12>.reply_con1{
 	width:calc(100% - 5px) !important;
 	border-radius:5px;
 }
+
 .reply_con1>.reply_con_child{
   width:unset !important;
   margin:0 20px !important;
   border-radius:20px !important;
 }
+
 .content_m12>.comment_head{
   width:calc(100% - 3%) !important;
   border-radius:5px;
 }
+
 .content_m12>.van-list{width:100% !important}
+
 .content_m12>.van-list>.card_item{width:97% !important}
-.content_m12>.van-list>.card_item>.card_con>.card_con_reply{
+
+.content_m12>.van-list>.card_item>.card_con .card_con_reply{
   padding: 0.1rem 0.1rem !important;
   background-color: #eee;
   border-radius:5px;
 }
+
 .emoji_box{width:unset !important}
+
 .card_item>.card_t>.card_tm>div{font-size:20px !important}
+
 .content>.van-popup--center:not(.img_popup){
   height:50% !important;
   width:50% !important;
 }
+
 .content .reply_con{
   width:unset !important;
   height:95%;
 }
+
 .van-popup--center>.reply_con>#div2{height:65%}
+
 /*.page>.content{
   max-width:unset !important;
   padding-bottom:unset !important;
   height:calc(100% - 0.46rem);
 }*/
+
 .page>.content>#div1{height:60%}
+
 .van-overlay{backdrop-filter:blur(3px);}
 
 
@@ -154,6 +194,7 @@ function adjust_layout() {
   position:fixed;
   width:80% !important;
 }
+
 .tab_box>ul>li{
   flex-grow:1;
   text-align:center;
@@ -163,15 +204,20 @@ function adjust_layout() {
 /*---账号信息卡页---*/
 
 .mine_b>.mine_br{width:0}
+
 .mine_brb>.content_f>.van-list .card_item{width:unset !important}
+
 .mine_b>.mine_bl{flex:none}
 
 
 /*---兑换页---*/
 
 .items{width:unset !important}
+
 .strage_item .score{width:auto !important}
+
 .sign{width:unset !important}
+
 /*.task{width:unset !important}*/
 
 
@@ -222,9 +268,9 @@ function custom_color() {
 html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign_box,.content_l
 ,.hot_words>.fire_items div,.van-list,.content_m,.mine_b>.mine_bl,.mine_b>.mine_br,.content_u>.mask>.head_box
 ,.user_box,.content_m12>.reply_con1>.reply_con_child,.content_m12>.reply_con1>.reply_con_child .w-e-text-container{
-  background:${mod_setting.layout.bg_color}/*#444*/ !important;
-  background-color:${mod_setting.layout.bg_color}/*#444*/ !important;
-  color:${mod_setting.layout.text_color}/*#eee*/ !important;
+  background:${mod_setting.layout.bg_color} !important;
+  background-color:${mod_setting.layout.bg_color} !important;
+  color:${mod_setting.layout.text_color} !important;
 }
 
 .index_news,.conditions1,.card_item,.van-button--primary,.van-button--plain,.comment_head,.post_box
@@ -233,20 +279,29 @@ html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign
 ,.van-search__content,.user_box .user_item input,.type_box,.head_item,.van-dialog,.van-button--default
 ,.content_r>.btns,.content_m12>.reply_con1,.message_pro,.hot_words
 ,.icon_box,.get_box{
-  background-color:${mod_setting.layout.fore_color}/*#333*/ !important;
-  background:${mod_setting.layout.fore_color}/*#333*/ !important;
+  background-color:${mod_setting.layout.fore_color} !important;
+  background:${mod_setting.layout.fore_color} !important;
 }
 
 .van-tab,.card_tit p,.card_m1 div,.comment_head>span,.van-action-sheet__cancel,.list_wrap>p,.show_message p
 ,.show_message span,.mine_box p,.item>p,.sign_box>p,.gift_user,.comment_head .ac,.van-field__control
-,.content .head1 select,.card_con_reply p>i>i,.mine_box .data_box span,.van-button--default{color:${mod_setting.layout.text_color}/*#eee*/ !important}
+,.content .head1 select,.card_con_reply p>i>i,.mine_box .data_box span,.van-button--default{color:${mod_setting.layout.text_color} !important}
 
 .sign_box>p b{color:#ff0 !important}
+
 .sign_box,.content{background:unset !important}
+
 .card_m1 div a,.show_message a{color:#999 !important}
+
+.message .me_con,.message_item>p,.content_l .nav_item:not(.nav_item_c),.content_l ul li:not(.li_c),.content_r .btn
+,.index_con .strage_item>div span{color:unset !important}
+
 .card_item,.post_box,.comment_head,.btn1,.btn2,.top_box,.sign,.task,.content .van-field,.content #div1,#div2,.type_box,.head_item{-webkit-box-shadow:unset !important}
-.pc_right_bt a{color:#444 !important}
+
+.pc_right_bt a,.pc_right_bt div{color:${mod_setting.layout.bg_color} !important}
+
 .van-dialog__confirm{color:#e02 !important}
+
 .img_popup{background-color:transparent !important}
 
 .login_box input{color:#000 !important}
@@ -287,21 +342,25 @@ body{
 }
 .main,.van-button,.post_box{opacity:0.95}
 .index_con img,.card_item img{opacity:1}
-.message_item,.strage_item{background:#4444}
+/*.message_item,.strage_item{background:#4444}*/
+/*.message .me_con,.message_item>p,.content_l .nav_item:not(.nav_item_c),.content_l ul li:not(.li_c),.content_r .btn
+,.index_con .strage_item>div span{color:unset !important}*/
 `);
-        if (mod_setting.layout.dark == true) {
+        if (mod_setting.layout.change_color == true) {
             GM_addStyle(`
-			.content_main>.content_l,#hide_reply_input,.message_item,.strage_item{
-				filter:drop-shadow(0 0 5px #000e);
-				text-shadow:0 0 10px #fffe;
+				.content_main>.content_l,#hide_reply_input,.message_item,.strage_item{
+					filter:drop-shadow(0 0 5px ${mod_setting.layout.text_color});
+					text-shadow:0 0 10px ${mod_setting.layout.text_color};
 				}
 			`);
         } else {
             GM_addStyle(`
-			.content_main>.content_l,#hide_reply_input,.message_item,.strage_item{
-				text-shadow:0 0 10px #fffe;
-				filter:drop-shadow(0 0 5px #fffe);
+				.content_main>.content_l,#hide_reply_input,.message_item,.strage_item{
+					filter:drop-shadow(0 0 5px #fffe);
+					text-shadow:0 0 10px #fffe;
 				}
+				.message .me_con,.message_item>p,.content_l .nav_item:not(.nav_item_c),.content_l ul li:not(.li_c),.content_r .btn
+				,.index_con .strage_item>div span{color:unset !important}
 			`);
         }
     }
@@ -394,6 +453,41 @@ function add_img_pop_btns() {
 			#mod_img_pop_div button{color:#eee;background:transparent;margin-left:15px;border:0;cursor:pointer;}
 	`);
     }
+}
+
+
+//----------贴内楼中楼超长折叠----------
+function fold_long_replys() {
+    document.querySelectorAll(".card_con").forEach(function (item) {
+        if (!item.querySelector(".mod_reply_con")) {
+            if (item.querySelectorAll(".card_con_reply").length > 0) {
+                let temp_div = document.createElement("div");
+                temp_div.classList.add("mod_reply_con");
+                item.querySelectorAll(".card_con_reply").forEach(function (sub_item) {
+                    temp_div.appendChild(sub_item);
+                });
+                item.appendChild(temp_div);
+                if (item.querySelectorAll(".card_con_reply").length > 3) {
+					let temp_hei = item.querySelectorAll(".card_con_reply")[0].offsetHeight + item.querySelectorAll(".card_con_reply")[1].offsetHeight + item.querySelectorAll(".card_con_reply")[2].offsetHeight;
+                    let temp_btn = document.createElement("button");
+                    temp_btn.classList.add("mod_fold_btn");
+                    temp_btn.innerHTML = `展开${item.querySelectorAll(".card_con_reply").length - 3}条评论`;
+                    temp_btn.style = "margin-left:5%;background:unset;width:80%;border:0;cursor:pointer;";
+                    item.appendChild(temp_btn);
+                    temp_div.style = `height:${temp_hei}px;overflow-y:hidden;`;
+                    temp_btn.addEventListener("click", function () {
+                        if (temp_div.offsetHeight <= temp_hei) {
+                            temp_div.style = "";
+                            temp_btn.innerHTML = `收起${item.querySelectorAll(".card_con_reply").length - 3}条评论`;
+                        } else {
+                            temp_div.style = `height:${temp_hei}px;overflow-y:hidden;`;
+                            temp_btn.innerHTML = `展开${item.querySelectorAll(".card_con_reply").length - 3}条评论`;
+                        }
+                    });
+                }
+            }
+        }
+    });
 }
 
 
@@ -551,9 +645,12 @@ const setting_page = `
     <legend>帖子页面</legend>
     <label><input type="checkbox" name="hide_input">自动隐藏回复输入框</label>
 	<label><input type="checkbox" name="img_btns">查看大图界面添加长图放大、设为背景功能</label>
-    <label><input type="checkbox" name="seq">回复默认正序显示</label>
 	<label><input type="checkbox" name="hide_cont_r">隐藏右侧边栏</label>
+	<label><input type="checkbox" name="fold_long_reply">自动折叠大于3层的楼中楼</label>
+    <label><input type="checkbox" name="seq">回复默认正序显示</label>
   </fieldset>
+</div>
+<div>
   <fieldset name="bg" style="display:flex;flex-direction: column;">
     <legend><label><input type="checkbox" name="change">背景图片</label></legend>
     <label>图片地址<input type="search" name="url"></label>
@@ -564,9 +661,9 @@ const setting_page = `
 	<span id="mod_set_imgsize"></span>
   </fieldset>
 </div>
-<div>
+<div style="display:block">
   <button id="mod_set_p_ok">保存设置并刷新页面</button>
-  <span>脚本加载器: ${GM_info.scriptHandler} ${GM_info.version}</span>
+  <span>脚本加载器: ${GM_info.scriptHandler} ${GM_info.version} <a href="../m">旧版页面>></a></span><br>
   <span>Ver.${GM_info.script.version} - Code by <a href="../user?id=25395">Mirco</a></span>
 </div>
 
@@ -590,7 +687,9 @@ GM_addStyle(`
   cursor:pointer;
   transition:all 0.5s;
 }
+
 #mod_setting_btn:hover{filter: drop-shadow(0px 0px 6px #fff)}
+
 #mod_setting_panel{
   position:fixed;
   font-size:15px;
@@ -604,28 +703,39 @@ GM_addStyle(`
   backdrop-filter:blur(15px);
   text-shadow: 0 0 20px #999;
 }
+
 #mod_setting_panel>span{
 	position:fixed;
 	top:1px;
 	left:15px;
 	cursor:default;
 }
+
 #mod_setting_panel input{
   -webkit-appearance:auto;
   margin:0 5px;
 }
+
 #mod_setting_panel>div{
-  display:flex;
-  flex-direction: column;
+  display:inline-block;
+  vertical-align:top;
+  /*flex-direction: column;*/
 }
+
 #mod_setting_panel label{display:flex}
+
 #mod_setting_panel>div input[name="url"]{
   flex-grow:1;
   border:1px #000;
   color:#000;
   border-style:solid;
 }
-#mod_setting_panel>div>#mod_set_p_ok{margin:10px 0;}
+
+#mod_setting_panel>div>#mod_set_p_ok{
+	margin:10px 0;
+	float:right;
+}
+
 #mod_setting_panel>div button{
   background-color:#ddd;
   color:#000;
@@ -635,6 +745,7 @@ GM_addStyle(`
   border:1px #777;
   border-radius:3px;
 }
+
 #mod_setting_panel>#mod_set_p_cancel{
   position:fixed;
   top:0px;
@@ -646,34 +757,39 @@ GM_addStyle(`
   font-size:15px;
   transition:all 0.5s;
 }
+
 #mod_setting_panel>#mod_set_p_cancel:hover{
 	background:linear-gradient(to bottom,#F26C1C 0%,#faa 70%,#F26C1C 100%);
 	box-shadow:0 0 10px #F26C1C;
-	}
+}
+
 #mod_setting_panel>div>span{
   text-align:center;
   font-size:10px;
   cursor:default;
 }
-#mod_setting_panel>div>span>a,#mod_setting_panel>div>span>a:visited{
-  color:#222;
-}
+
+#mod_setting_panel>div span>a,#mod_setting_panel>div span>a:visited{color:#222;}
+
 #mod_setting_panel fieldset{
   padding:5px 10px;
   border:1px solid;
   margin:5px 0;
   border-radius:5px;
 }
+
 #mod_setting_panel #mod_set_img{
   max-height:100px;
-  max-width:100%;
+  max-width:280px;
   display:block;
   margin:0 auto;
   cursor:pointer;
 }
+
 #mod_setting_panel #mod_set_img[src=""]{
   display:none;
 }
+
 #mod_setting_panel #mod_set_imgsize{
 	text-align: center;
     margin: 0 auto;
@@ -688,7 +804,7 @@ const setting_icon = `data:image/svg+xml;base64,PHN2ZyBkYXRhLXYtYzFhZmFhNDU9IiIg
 
 //----------其他功能性函数----------
 
-function waitForObj(selector, callback, active_once = false, node = document) {
+function waitForObj(selector, callback, active_once = false, node = document, stree = true) {
     const obvser = new MutationObserver(function () {
         //console.log("dom updated");
         if (node.querySelectorAll(selector).length > 0) {
@@ -701,13 +817,11 @@ function waitForObj(selector, callback, active_once = false, node = document) {
     });
     obvser.observe(document.body, {
         childList: true,
-        subtree: true
+        subtree: stree
     });
 }
 
-function waitForObjs() {
-    //if (location.pathname.startsWith("/threadInfo")) {
-	//}	
+function waitForObjs() {	
     if (mod_setting.post.hide_input) {
         waitForObj(".reply_con1", add_hide_reply_btn);
     }
@@ -727,6 +841,10 @@ function waitForObjs() {
 		GM_addStyle(`.card_item .card_m .img_box{display:unset !important}`);
         waitForObj(".img_box img", big_pic_for_main_page);
     }
+	if (mod_setting.post.fold_long_reply) {
+		GM_addStyle(`.mod_reply_con{margin-top:5px}`);
+		waitForObj(".card_con",fold_long_replys);
+	}
     waitForObj(".main", add_plugin_setting_page, true);
 }
 
@@ -750,7 +868,8 @@ var mod_setting = {
         "hide_input": false,
         "seq": false,
         "img_btns": false,
-		"hide_cont_r": false
+		"hide_cont_r": false,
+		"fold_long_reply": false
     }
 };
 
