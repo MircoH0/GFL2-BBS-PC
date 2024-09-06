@@ -9,7 +9,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.1.6
+// @version     0.1.7
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -482,6 +482,7 @@ function fold_long_replys() {
                         } else {
                             temp_div.style = `height:${temp_hei}px;overflow-y:hidden;`;
                             temp_btn.innerHTML = `展开${item.querySelectorAll(".card_con_reply").length - 3}条评论`;
+							item.querySelectorAll(".card_con_reply")[0].scrollIntoView({behavior: 'smooth', block: 'nearest'});
                         }
                     });
                 }
@@ -516,8 +517,8 @@ function big_pic_for_main_page() {
                     this.parentElement.style.height = "";
                     this.style.maxHeight = "";
                     this.style.cursor = "zoom-in";
+					this.scrollIntoView({behavior: 'smooth', block: 'nearest'});
                 }
-                //console.log(this.src);
             });
             img.classList.add("clickimg");
         }
@@ -542,9 +543,6 @@ function add_plugin_setting_page() {
         if (document.querySelector("#mod_setting_btn") == null) {
             document.querySelector(".main")?.appendChild(temp_btn);
         }
-        /* mod_div.querySelector("fieldset[name=\"bg\"] input[name=\"b64\"]").addEventListener("change",function (){
-        mod_div.querySelector("#mod_set_img").src = this.value;
-        }); */
         temp_btn.addEventListener("click", function () {
             if (mod_div.style.display == "none") {
                 mod_div.querySelectorAll("fieldset[name]").forEach(function (item_set) {
