@@ -9,7 +9,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.1.7
+// @version     0.1.8
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -467,21 +467,24 @@ function fold_long_replys() {
                     temp_div.appendChild(sub_item);
                 });
                 item.appendChild(temp_div);
-                if (item.querySelectorAll(".card_con_reply").length > 3) {
-					let temp_hei = item.querySelectorAll(".card_con_reply")[0].offsetHeight + item.querySelectorAll(".card_con_reply")[1].offsetHeight + item.querySelectorAll(".card_con_reply")[2].offsetHeight;
+                if (item.querySelectorAll(".card_con_reply").length > mod_setting.post.fold_reply_count) {
+					let temp_hei = 0;
+					for (i = 0; i < mod_setting.post.fold_reply_count; i++){
+					    temp_hei += item.querySelectorAll(".card_con_reply")[i].offsetHeight;
+					}
                     let temp_btn = document.createElement("button");
                     temp_btn.classList.add("mod_fold_btn");
-                    temp_btn.innerHTML = `展开${item.querySelectorAll(".card_con_reply").length - 3}条评论`;
+                    temp_btn.innerHTML = `展开${item.querySelectorAll(".card_con_reply").length - mod_setting.post.fold_reply_count}条评论`;
                     temp_btn.style = "margin-left:5%;background:unset;width:80%;border:0;cursor:pointer;";
                     item.appendChild(temp_btn);
                     temp_div.style = `height:${temp_hei}px;overflow-y:hidden;`;
                     temp_btn.addEventListener("click", function () {
                         if (temp_div.offsetHeight <= temp_hei) {
                             temp_div.style = "";
-                            temp_btn.innerHTML = `收起${item.querySelectorAll(".card_con_reply").length - 3}条评论`;
+                            temp_btn.innerHTML = `收起${item.querySelectorAll(".card_con_reply").length - mod_setting.post.fold_reply_count}条评论`;
                         } else {
                             temp_div.style = `height:${temp_hei}px;overflow-y:hidden;`;
-                            temp_btn.innerHTML = `展开${item.querySelectorAll(".card_con_reply").length - 3}条评论`;
+                            temp_btn.innerHTML = `展开${item.querySelectorAll(".card_con_reply").length - mod_setting.post.fold_reply_count}条评论`;
 							item.querySelectorAll(".card_con_reply")[0].scrollIntoView({behavior: 'smooth', block: 'nearest'});
                         }
                     });
@@ -558,7 +561,7 @@ function add_plugin_setting_page() {
 						item.dispatchEvent(event);
                     });
                 });
-                mod_div.querySelector("#mod_set_img").src = mod_div.querySelector("input[name=\"b64\"]").value;
+                mod_div.querySelector("#mod_set_img").src = mod_div.querySelector('input[name=\"b64"]').value;
                 mod_div.style.display = "unset";
             }
         });
@@ -588,7 +591,7 @@ function add_plugin_setting_page() {
                     if (temp_bgfile.files[0]?.type.startsWith("image/")) {
                         let reader = new FileReader();
                         reader.onload = function () {
-                            mod_div.querySelector("fieldset[name=\"bg\"] input[name=\"b64\"]").value = reader.result;
+                            mod_div.querySelector('fieldset[name="bg"] input[name="b64"]').value = reader.result;
                             mod_div.querySelector("#mod_set_img").src = reader.result;
                         };
                         reader.readAsDataURL(temp_bgfile.files[0]);
@@ -599,7 +602,7 @@ function add_plugin_setting_page() {
             });
             mod_div.querySelector("#mod_set_img").addEventListener("click", function (sender) {
                 this.src = "";
-                mod_div.querySelector("fieldset[name=\"bg\"] input[name=\"b64\"]").value = "";
+                mod_div.querySelector('fieldset[name="bg"] input[name="b64"]').value = "";
                 mod_div.querySelector("#mod_set_imgsize").innerHTML = "";
             });
             mod_div.querySelector("#mod_set_img").onload = function () {
@@ -610,11 +613,11 @@ function add_plugin_setting_page() {
                 mod_div.querySelector("#mod_set_p_loadbg").style.display = "block";
             };
 			mod_div.querySelector("#mod_set_p_resetcolor").addEventListener("click", function () {
-				mod_div.querySelector("fieldset[name=\"layout\"] input[name=\"bg_color\"]").value = "#444444";
-				mod_div.querySelector("fieldset[name=\"layout\"] input[name=\"fore_color\"]").value = "#333333";
-				mod_div.querySelector("fieldset[name=\"layout\"] input[name=\"text_color\"]").value = "#eeeeee";
+				mod_div.querySelector('fieldset[name="layout"] input[name="bg_color"]').value = "#444444";
+				mod_div.querySelector('fieldset[name="layout"] input[name="fore_color"]').value = "#333333";
+				mod_div.querySelector('fieldset[name="layout"] input[name="text_color"]').value = "#eeeeee";
 			});
- 			 mod_div.querySelector("fieldset[name=\"layout\"] input[name=\"wide_percent\"]").addEventListener("input", function () {
+ 			 mod_div.querySelector('fieldset[name="layout"] input[name="wide_percent"]').addEventListener("input", function () {
 			    mod_div.querySelector("#mod_set_wvalue").innerHTML = this.value + "% 宽度";
 			}); 
         }
@@ -644,7 +647,7 @@ const setting_page = `
     <label><input type="checkbox" name="hide_input">自动隐藏回复输入框</label>
 	<label><input type="checkbox" name="img_btns">查看大图界面添加长图放大、设为背景功能</label>
 	<label><input type="checkbox" name="hide_cont_r">隐藏右侧边栏</label>
-	<label><input type="checkbox" name="fold_long_reply">自动折叠大于3层的楼中楼</label>
+	<label><input type="checkbox" name="fold_long_reply">自动折叠大于<input type="number" name="fold_reply_count" min="1">层的楼中楼</label>
     <label><input type="checkbox" name="seq">回复默认正序显示</label>
   </fieldset>
 </div>
@@ -661,7 +664,7 @@ const setting_page = `
 </div>
 <div style="display:block">
   <button id="mod_set_p_ok">保存设置并刷新页面</button>
-  <span>脚本加载器: ${GM_info.scriptHandler} ${GM_info.version} <a href="../m">旧版页面>></a></span><br>
+  <span>脚本加载器: ${GM_info.scriptHandler} ${GM_info.version}&nbsp<a href="../m">旧版页面>></a>&nbsp<a href="../threadInfo?id=25991">问题反馈>></a></span><br>
   <span>Ver.${GM_info.script.version} - Code by <a href="../user?id=25395">Mirco</a></span>
 </div>
 
@@ -712,6 +715,12 @@ GM_addStyle(`
 #mod_setting_panel input{
   -webkit-appearance:auto;
   margin:0 5px;
+}
+
+#mod_setting_panel input[type="number"]{
+  width:50px;
+  color:#000;
+  text-align:center;
 }
 
 #mod_setting_panel>div{
@@ -867,7 +876,8 @@ var mod_setting = {
         "seq": false,
         "img_btns": false,
 		"hide_cont_r": false,
-		"fold_long_reply": false
+		"fold_long_reply": false,
+		"fold_reply_count": 3
     }
 };
 
