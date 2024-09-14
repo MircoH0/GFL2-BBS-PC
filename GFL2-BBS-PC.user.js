@@ -9,7 +9,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.1.8
+// @version     0.1.9
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -363,6 +363,11 @@ body{
 				,.index_con .strage_item>div span{color:unset !important}
 			`);
         }
+		if (mod_setting.bg.bg_mode == "brightness") {
+		    GM_addStyle(`body{backdrop-filter:brightness(0.35);}`);
+		} else {
+		    GM_addStyle(`body{backdrop-filter:blur(3px);}`);
+		}
     }
 }
 
@@ -468,10 +473,10 @@ function fold_long_replys() {
                 });
                 item.appendChild(temp_div);
                 if (item.querySelectorAll(".card_con_reply").length > mod_setting.post.fold_reply_count) {
-					let temp_hei = 0;
-					for (i = 0; i < mod_setting.post.fold_reply_count; i++){
-					    temp_hei += item.querySelectorAll(".card_con_reply")[i].offsetHeight;
-					}
+                    let temp_hei = 0;
+                    for (i = 0; i < mod_setting.post.fold_reply_count; i++) {
+                        temp_hei += item.querySelectorAll(".card_con_reply")[i].offsetHeight;
+                    }
                     let temp_btn = document.createElement("button");
                     temp_btn.classList.add("mod_fold_btn");
                     temp_btn.innerHTML = `展开${item.querySelectorAll(".card_con_reply").length - mod_setting.post.fold_reply_count}条评论`;
@@ -485,7 +490,10 @@ function fold_long_replys() {
                         } else {
                             temp_div.style = `height:${temp_hei}px;overflow-y:hidden;`;
                             temp_btn.innerHTML = `展开${item.querySelectorAll(".card_con_reply").length - mod_setting.post.fold_reply_count}条评论`;
-							item.querySelectorAll(".card_con_reply")[0].scrollIntoView({behavior: 'smooth', block: 'nearest'});
+                            item.querySelectorAll(".card_con_reply")[0].scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'nearest'
+                            });
                         }
                     });
                 }
@@ -514,20 +522,22 @@ function big_pic_for_main_page() {
                 event.stopPropagation();
                 if (this.style.maxHeight == "") {
                     this.parentElement.style.height = "unset";
-                    this.style.maxHeight = "unset";
+                    this.style.maxHeight = "700px";
                     this.style.cursor = "zoom-out";
                 } else {
                     this.parentElement.style.height = "";
                     this.style.maxHeight = "";
                     this.style.cursor = "zoom-in";
-					this.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+                    this.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest'
+                    });
                 }
             });
             img.classList.add("clickimg");
         }
     });
 }
-
 
 //----------脚本设置面板----------
 
@@ -552,13 +562,17 @@ function add_plugin_setting_page() {
                     item_set.querySelectorAll("input[name]").forEach(function (item) {
                         if (item.type == "checkbox") {
                             item.checked = mod_setting[item_set.name][item.name];
+                        } else if (item.type == "radio") {
+                            if (item.value == mod_setting[item_set.name][item.name]) {
+                                item.checked = true
+                            }
                         } else {
                             item.value = mod_setting[item_set.name][item.name];
                         }
-						var event = new Event('input', {
-						    bubbles: true
-						});
-						item.dispatchEvent(event);
+                        var event = new Event('input', {
+                            bubbles: true
+                        });
+                        item.dispatchEvent(event);
                     });
                 });
                 mod_div.querySelector("#mod_set_img").src = mod_div.querySelector('input[name=\"b64"]').value;
@@ -575,6 +589,10 @@ function add_plugin_setting_page() {
                     item_set.querySelectorAll("input[name]").forEach(function (item) {
                         if (item.type == "checkbox") {
                             mod_setting[item_set.name][item.name] = item.checked;
+                        } else if (item.type == "radio") {
+                            if (item.checked == true) {
+                                mod_setting[item_set.name][item.name] = item.value
+                            }
                         } else {
                             mod_setting[item_set.name][item.name] = item.value;
                         }
@@ -596,7 +614,6 @@ function add_plugin_setting_page() {
                         };
                         reader.readAsDataURL(temp_bgfile.files[0]);
                     }
-
                 });
                 temp_bgfile.click();
             });
@@ -612,14 +629,14 @@ function add_plugin_setting_page() {
             mod_div.querySelector("#mod_set_img").onerror = function () {
                 mod_div.querySelector("#mod_set_p_loadbg").style.display = "block";
             };
-			mod_div.querySelector("#mod_set_p_resetcolor").addEventListener("click", function () {
-				mod_div.querySelector('fieldset[name="layout"] input[name="bg_color"]').value = "#444444";
-				mod_div.querySelector('fieldset[name="layout"] input[name="fore_color"]').value = "#333333";
-				mod_div.querySelector('fieldset[name="layout"] input[name="text_color"]').value = "#eeeeee";
-			});
- 			 mod_div.querySelector('fieldset[name="layout"] input[name="wide_percent"]').addEventListener("input", function () {
-			    mod_div.querySelector("#mod_set_wvalue").innerHTML = this.value + "% 宽度";
-			}); 
+            mod_div.querySelector("#mod_set_p_resetcolor").addEventListener("click", function () {
+                mod_div.querySelector('fieldset[name="layout"] input[name="bg_color"]').value = "#444444";
+                mod_div.querySelector('fieldset[name="layout"] input[name="fore_color"]').value = "#333333";
+                mod_div.querySelector('fieldset[name="layout"] input[name="text_color"]').value = "#eeeeee";
+            });
+            mod_div.querySelector('fieldset[name="layout"] input[name="wide_percent"]').addEventListener("input", function () {
+                mod_div.querySelector("#mod_set_wvalue").innerHTML = this.value + "% 宽度";
+            });
         }
     }
 }
@@ -654,6 +671,11 @@ const setting_page = `
 <div>
   <fieldset name="bg" style="display:flex;flex-direction: column;">
     <legend><label><input type="checkbox" name="change">背景图片</label></legend>
+	<div>
+	背景图片处理：
+	<label style="display:inline-block"><input type="radio" name="bg_mode" value="blur">模糊</label>
+	<label style="display:inline-block"><input type="radio" name="bg_mode" value="brightness">降低亮度</label>
+	</div>
     <label>图片地址<input type="search" name="url"></label>
     <p>注意：地址需允许外链或者是社区内的图片</p>
     <label><input type="checkbox" name="local">使用本地图片<input type="hidden" name="b64"></label>
@@ -664,8 +686,8 @@ const setting_page = `
 </div>
 <div style="display:block">
   <button id="mod_set_p_ok">保存设置并刷新页面</button>
-  <span>脚本加载器: ${GM_info.scriptHandler} ${GM_info.version}&nbsp<a href="../m">旧版页面>></a>&nbsp<a href="../threadInfo?id=25991">问题反馈>></a></span><br>
-  <span>Ver.${GM_info.script.version} - Code by <a href="../user?id=25395">Mirco</a></span>
+  <span>脚本加载器: ${GM_info.scriptHandler} ${GM_info.version}&nbsp<a href="../m" target="_blank">旧版页面>></a>&nbsp<a href="../threadInfo?id=25991" target="_blank">问题反馈>></a></span><br>
+  <span>Ver.${GM_info.script.version} - Code by <a href="../user?id=25395" target="_blank">Mirco</a></span>
 </div>
 
 `;
@@ -806,9 +828,6 @@ GM_addStyle(`
 `);
 
 
-const setting_icon = `data:image/svg+xml;base64,PHN2ZyBkYXRhLXYtYzFhZmFhNDU9IiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjUiIGhlaWdodD0iMjUiIHZpZXdCb3g9IjAgMCAyNCAyNCIgY2xhc3M9InN2ZyI+PGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZWVlIiBzdHJva2Utd2lkdGg9IjEuNSI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMyIvPjxwYXRoIGQ9Ik0xMy43NjUgMi4xNTJDMTMuMzk4IDIgMTIuOTMyIDIgMTIgMmMtLjkzMiAwLTEuMzk4IDAtMS43NjUuMTUyYTIgMiAwIDAgMC0xLjA4MyAxLjA4M2MtLjA5Mi4yMjMtLjEyOS40ODQtLjE0My44NjNhMS42MTcgMS42MTcgMCAwIDEtLjc5IDEuMzUzYTEuNjE3IDEuNjE3IDAgMCAxLTEuNTY3LjAwOGMtLjMzNi0uMTc4LS41NzktLjI3Ni0uODItLjMwOGEyIDIgMCAwIDAtMS40NzguMzk2QzQuMDQgNS43OSAzLjgwNiA2LjE5MyAzLjM0IDdjLS40NjYuODA3LS43IDEuMjEtLjc1MSAxLjYwNWEyIDIgMCAwIDAgLjM5NiAxLjQ3OWMuMTQ4LjE5Mi4zNTUuMzUzLjY3Ni41NTVjLjQ3My4yOTcuNzc3LjgwMy43NzcgMS4zNjFjMCAuNTU4LS4zMDQgMS4wNjQtLjc3NyAxLjM2Yy0uMzIxLjIwMy0uNTI5LjM2NC0uNjc2LjU1NmEyIDIgMCAwIDAtLjM5NiAxLjQ3OWMuMDUyLjM5NC4yODUuNzk4Ljc1IDEuNjA1Yy40NjcuODA3LjcgMS4yMSAxLjAxNSAxLjQ1M2EyIDIgMCAwIDAgMS40NzkuMzk2Yy4yNC0uMDMyLjQ4My0uMTMuODE5LS4zMDhhMS42MTcgMS42MTcgMCAwIDEgMS41NjcuMDA4Yy40ODMuMjguNzcuNzk1Ljc5IDEuMzUzYy4wMTQuMzguMDUuNjQuMTQzLjg2M2EyIDIgMCAwIDAgMS4wODMgMS4wODNDMTAuNjAyIDIyIDExLjA2OCAyMiAxMiAyMmMuOTMyIDAgMS4zOTggMCAxLjc2NS0uMTUyYTIgMiAwIDAgMCAxLjA4My0xLjA4M2MuMDkyLS4yMjMuMTI5LS40ODMuMTQzLS44NjNjLjAyLS41NTguMzA3LTEuMDc0Ljc5LTEuMzUzYTEuNjE3IDEuNjE3IDAgMCAxIDEuNTY3LS4wMDhjLjMzNi4xNzguNTc5LjI3Ni44MTkuMzA4YTIgMiAwIDAgMCAxLjQ3OS0uMzk2Yy4zMTUtLjI0Mi41NDgtLjY0NiAxLjAxNC0xLjQ1M2MuNDY2LS44MDcuNy0xLjIxLjc1MS0xLjYwNWEyIDIgMCAwIDAtLjM5Ni0xLjQ3OWMtLjE0OC0uMTkyLS4zNTUtLjM1My0uNjc2LS41NTVBMS42MTcgMS42MTcgMCAwIDEgMTkuNTYyIDEyYzAtLjU1OC4zMDQtMS4wNjQuNzc3LTEuMzZjLjMyMS0uMjAzLjUyOS0uMzY0LjY3Ni0uNTU2YTIgMiAwIDAgMCAuMzk2LTEuNDc5Yy0uMDUyLS4zOTQtLjI4NS0uNzk4LS43NS0xLjYwNWMtLjQ2Ny0uODA3LS43LTEuMjEtMS4wMTUtMS40NTNhMiAyIDAgMCAwLTEuNDc5LS4zOTZjLS4yNC4wMzItLjQ4My4xMy0uODIuMzA4YTEuNjE3IDEuNjE3IDAgMCAxLTEuNTY2LS4wMDhhMS42MTcgMS42MTcgMCAwIDEtLjc5LTEuMzUzYy0uMDE0LS4zOC0uMDUtLjY0LS4xNDMtLjg2M2EyIDIgMCAwIDAtMS4wODMtMS4wODNaIi8+PC9nPjwvc3ZnPg==`;
-
-
 //----------其他功能性函数----------
 
 function waitForObj(selector, callback, active_once = false, node = document, stree = true) {
@@ -855,7 +874,7 @@ function waitForObjs() {
     waitForObj(".main", add_plugin_setting_page, true);
 }
 
-var mod_setting = {
+const mod_setting_default = {
     "layout": {
         "wide": false,
 		"wide_percent": 99,
@@ -869,7 +888,8 @@ var mod_setting = {
         "change": false,
         "local": false,
         "url": "",
-        "b64": ""
+        "b64": "",
+		"bg_mode": "blur"
     },
     "post": {
         "hide_input": false,
@@ -881,15 +901,27 @@ var mod_setting = {
     }
 };
 
+var mod_setting;
 
 function save_setting() {
     GM_setValue("settings", mod_setting);
 }
 
+function load_setting() {
+    mod_setting = GM_getValue("settings", mod_setting_default);
+    for (let attr_set in mod_setting_default) {
+        for (let attr in mod_setting_default[attr_set]) {
+            if (!mod_setting[attr_set][attr]) {
+                mod_setting[attr_set][attr] = mod_setting_default[attr_set][attr];
+            }
+        }
+    }
+}
+
 (function () {
     'use strict';
 
-	mod_setting = GM_getValue("settings", mod_setting);
+	load_setting();
 	//console.log(mod_setting);
 	
     adjust_layout();
@@ -900,4 +932,4 @@ function save_setting() {
 })();
 
 
-
+var setting_icon = `data:image/svg+xml;base64,PHN2ZyBkYXRhLXYtYzFhZmFhNDU9IiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjUiIGhlaWdodD0iMjUiIHZpZXdCb3g9IjAgMCAyNCAyNCIgY2xhc3M9InN2ZyI+PGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZWVlIiBzdHJva2Utd2lkdGg9IjEuNSI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMyIvPjxwYXRoIGQ9Ik0xMy43NjUgMi4xNTJDMTMuMzk4IDIgMTIuOTMyIDIgMTIgMmMtLjkzMiAwLTEuMzk4IDAtMS43NjUuMTUyYTIgMiAwIDAgMC0xLjA4MyAxLjA4M2MtLjA5Mi4yMjMtLjEyOS40ODQtLjE0My44NjNhMS42MTcgMS42MTcgMCAwIDEtLjc5IDEuMzUzYTEuNjE3IDEuNjE3IDAgMCAxLTEuNTY3LjAwOGMtLjMzNi0uMTc4LS41NzktLjI3Ni0uODItLjMwOGEyIDIgMCAwIDAtMS40NzguMzk2QzQuMDQgNS43OSAzLjgwNiA2LjE5MyAzLjM0IDdjLS40NjYuODA3LS43IDEuMjEtLjc1MSAxLjYwNWEyIDIgMCAwIDAgLjM5NiAxLjQ3OWMuMTQ4LjE5Mi4zNTUuMzUzLjY3Ni41NTVjLjQ3My4yOTcuNzc3LjgwMy43NzcgMS4zNjFjMCAuNTU4LS4zMDQgMS4wNjQtLjc3NyAxLjM2Yy0uMzIxLjIwMy0uNTI5LjM2NC0uNjc2LjU1NmEyIDIgMCAwIDAtLjM5NiAxLjQ3OWMuMDUyLjM5NC4yODUuNzk4Ljc1IDEuNjA1Yy40NjcuODA3LjcgMS4yMSAxLjAxNSAxLjQ1M2EyIDIgMCAwIDAgMS40NzkuMzk2Yy4yNC0uMDMyLjQ4My0uMTMuODE5LS4zMDhhMS42MTcgMS42MTcgMCAwIDEgMS41NjcuMDA4Yy40ODMuMjguNzcuNzk1Ljc5IDEuMzUzYy4wMTQuMzguMDUuNjQuMTQzLjg2M2EyIDIgMCAwIDAgMS4wODMgMS4wODNDMTAuNjAyIDIyIDExLjA2OCAyMiAxMiAyMmMuOTMyIDAgMS4zOTggMCAxLjc2NS0uMTUyYTIgMiAwIDAgMCAxLjA4My0xLjA4M2MuMDkyLS4yMjMuMTI5LS40ODMuMTQzLS44NjNjLjAyLS41NTguMzA3LTEuMDc0Ljc5LTEuMzUzYTEuNjE3IDEuNjE3IDAgMCAxIDEuNTY3LS4wMDhjLjMzNi4xNzguNTc5LjI3Ni44MTkuMzA4YTIgMiAwIDAgMCAxLjQ3OS0uMzk2Yy4zMTUtLjI0Mi41NDgtLjY0NiAxLjAxNC0xLjQ1M2MuNDY2LS44MDcuNy0xLjIxLjc1MS0xLjYwNWEyIDIgMCAwIDAtLjM5Ni0xLjQ3OWMtLjE0OC0uMTkyLS4zNTUtLjM1My0uNjc2LS41NTVBMS42MTcgMS42MTcgMCAwIDEgMTkuNTYyIDEyYzAtLjU1OC4zMDQtMS4wNjQuNzc3LTEuMzZjLjMyMS0uMjAzLjUyOS0uMzY0LjY3Ni0uNTU2YTIgMiAwIDAgMCAuMzk2LTEuNDc5Yy0uMDUyLS4zOTQtLjI4NS0uNzk4LS43NS0xLjYwNWMtLjQ2Ny0uODA3LS43LTEuMjEtMS4wMTUtMS40NTNhMiAyIDAgMCAwLTEuNDc5LS4zOTZjLS4yNC4wMzItLjQ4My4xMy0uODIuMzA4YTEuNjE3IDEuNjE3IDAgMCAxLTEuNTY2LS4wMDhhMS42MTcgMS42MTcgMCAwIDEtLjc5LTEuMzUzYy0uMDE0LS4zOC0uMDUtLjY0LS4xNDMtLjg2M2EyIDIgMCAwIDAtMS4wODMtMS4wODNaIi8+PC9nPjwvc3ZnPg==`;
