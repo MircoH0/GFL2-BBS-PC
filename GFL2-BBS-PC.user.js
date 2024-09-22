@@ -9,7 +9,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.1.9
+// @version     0.1.10
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -722,9 +722,10 @@ GM_addStyle(`
   border-style:solid;
   border-radius:5px;
   box-shadow:0 0 15px #ccc6;
-  background-color:#eee5 !important;
+  background-color:#eee7 !important;
   backdrop-filter:blur(15px);
   text-shadow: 0 0 20px #999;
+  backdrop-filter:blur(10px);
 }
 
 #mod_setting_panel>span{
