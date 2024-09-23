@@ -2,14 +2,14 @@
 // @name        追放官方社区电脑版页面调整
 // @namespace   GFL2-PC-BBS
 // @license     MIT
-// @icon        https://community.cdn.sunborngame.com/prod/emoji/%E5%A5%BD%E5%A5%BD%E5%A5%BD.png
+// @icon        https://community.cdn.sunborngame.com/prod/image/1727091143918.png
 // @match       *://gf2-bbs.sunborngame.com/*
 // @exclude     *://gf2-bbs.sunborngame.com/m/*
 // @grant       GM_addStyle
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.1.10
+// @version     0.2.3
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -21,7 +21,7 @@ function adjust_layout() {
     if (mod_setting.layout.wide == true) {
         GM_addStyle(`
 
-/*---主页---*/
+/*-----主页-----*/
 
 .head .head_main{width:95% !important;}
 
@@ -44,6 +44,7 @@ function adjust_layout() {
 ::-webkit-scrollbar{
   /*display:none;*/
   width:10px;
+  height:10px;
 }
 
 ::-webkit-scrollbar-thumb:hover{
@@ -102,14 +103,16 @@ function adjust_layout() {
   width:calc(100% - 625px);
 }
 
-.sign_box{width:unset !important}
-
 .conditions1{border-radius:5px !important}
 
 .card_item{border-radius:5px !important}
 
+.theme{border-radius:5px !important}
 
-/*---帖子页---*/
+
+/*-----帖子页-----*/
+
+.content_th{width:100% !important}
 
 .content_main .post_box{
 	left:unset !important;
@@ -154,7 +157,7 @@ function adjust_layout() {
 
 .content_m12>.van-list>.card_item{width:97% !important}
 
-.content_m12>.van-list>.card_item>.card_con .card_con_reply{
+.card_con .card_con_reply{
   padding: 0.1rem 0.1rem !important;
   background-color: #eee;
   border-radius:5px;
@@ -165,8 +168,9 @@ function adjust_layout() {
 .card_item>.card_t>.card_tm>div{font-size:20px !important}
 
 .content>.van-popup--center:not(.img_popup){
-  height:50% !important;
-  width:50% !important;
+  height:70% !important;
+  width:70% !important;
+  border-radius:5px !important;
 }
 
 .content .reply_con{
@@ -186,8 +190,36 @@ function adjust_layout() {
 
 .van-overlay{backdrop-filter:blur(3px);}
 
+.emoji_types{width:unset !important}
 
-/*---攻略页---*/
+.emoji_box{height:calc(100% - 25%) !important}
+
+.card_m1 iframe{
+	width:711px !important;
+	height:400px !important;
+	border:none;
+}
+
+.commen_m_box{
+	width:unset !important;
+	height:unset !important;
+}
+
+
+/*---帖子发布、编辑页---*/
+
+.content_r:has(.head1){
+	top:80px;
+	height:unset !important;
+	width:${mod_setting.layout.wide_percent}% !important;
+}
+
+.content_r .head1{margin-top:unset !important}
+
+.head_r .c_box{left:unset !important;}
+
+
+/*-----攻略页-----*/
 
 .tab_box>ul{
   left:60px;
@@ -201,7 +233,9 @@ function adjust_layout() {
 }
 
 
-/*---账号信息卡页---*/
+/*-----账号信息卡页-----*/
+
+.content_main:has(.mine_b){height:90% !important}
 
 .mine_b>.mine_br{width:0}
 
@@ -210,7 +244,7 @@ function adjust_layout() {
 .mine_b>.mine_bl{flex:none}
 
 
-/*---兑换页---*/
+/*-----兑换页-----*/
 
 .items{width:unset !important}
 
@@ -218,18 +252,22 @@ function adjust_layout() {
 
 .sign{width:unset !important}
 
+.content:has(.sign){height:unset !important}
+
 /*.task{width:unset !important}*/
 
 
-/*---搜索页---*/
+/*-----搜索页-----*/
+
+#content_sear{width:calc(100% - 230px)}
 
 #content_sear>.van-list .card_item{
-  width:80% !important;
+  width:97% !important;
   padding:20px !important;
 }
 
 
-/*---通知页---*/
+/*-----通知页-----*/
 
 .show_message{
   width:unset !important;
@@ -237,7 +275,7 @@ function adjust_layout() {
 }
 
 
-/*登录页*/
+/*-----登录页-----*/
 
 .login_content{max-width:unset !important}
 
@@ -265,6 +303,7 @@ function custom_color() {
     if (mod_setting.layout.change_color == true) {
         GM_addStyle(`
 
+/*---背景色---*/
 html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign_box,.content_l
 ,.hot_words>.fire_items div,.van-list,.content_m,.mine_b>.mine_bl,.mine_b>.mine_br,.content_u>.mask>.head_box
 ,.user_box,.content_m12>.reply_con1>.reply_con_child,.content_m12>.reply_con1>.reply_con_child .w-e-text-container{
@@ -273,28 +312,32 @@ html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign
   color:${mod_setting.layout.text_color} !important;
 }
 
+/*---前景色---*/
 .index_news,.conditions1,.card_item,.van-button--primary,.van-button--plain,.comment_head,.post_box
 ,.van-action-sheet__cancel,.list_wrap li,.btn1,.btn2,.item,.w-e-toolbar,.w-e-text-container,.top_box
 ,.t_box>div,.sign,.task,.content_rule,.gift_user,.van-action-sheet__item,.content .van-cell,.content .head1 select
 ,.van-search__content,.user_box .user_item input,.type_box,.head_item,.van-dialog,.van-button--default
-,.content_r>.btns,.content_m12>.reply_con1,.message_pro,.hot_words
-,.icon_box,.get_box{
+,.content_r>.btns:has(.btn),.content_m12>.reply_con1,.message_pro,.hot_words
+,.icon_box,.get_box,.theme,.emoji_types,.head_r .c_box,.com_item>div{
   background-color:${mod_setting.layout.fore_color} !important;
   background:${mod_setting.layout.fore_color} !important;
 }
 
+/*---主要文字---*/
 .van-tab,.card_tit p,.card_m1 div,.comment_head>span,.van-action-sheet__cancel,.list_wrap>p,.show_message p
 ,.show_message span,.mine_box p,.item>p,.sign_box>p,.gift_user,.comment_head .ac,.van-field__control
-,.content .head1 select,.card_con_reply p>i>i,.mine_box .data_box span,.van-button--default{color:${mod_setting.layout.text_color} !important}
+,.content .head1 select,.card_con_reply p>i>i,.mine_box .data_box span,.van-button--default,.btns span{color:${mod_setting.layout.text_color} !important}
 
 .sign_box>p b{color:#ff0 !important}
 
-.sign_box,.content{background:unset !important}
+.sign_box,.content,.nav2,.nav2 .van-tabs,.nav2 .van-tabs__nav{background:unset !important}
 
 .card_m1 div a,.show_message a{color:#999 !important}
 
 .message .me_con,.message_item>p,.content_l .nav_item:not(.nav_item_c),.content_l ul li:not(.li_c),.content_r .btn
 ,.index_con .strage_item>div span{color:unset !important}
+
+.video_box input,.sear_themesbox input{color:initial !important}
 
 .card_item,.post_box,.comment_head,.btn1,.btn2,.top_box,.sign,.task,.content .van-field,.content #div1,#div2,.type_box,.head_item{-webkit-box-shadow:unset !important}
 
@@ -348,14 +391,14 @@ body{
 `);
         if (mod_setting.layout.change_color == true) {
             GM_addStyle(`
-				.content_main>.content_l,#hide_reply_input,.message_item,.strage_item{
+				.content_main>.content_l,#hide_reply_input,.message_item,.strage_item,.van-tabs{
 					filter:drop-shadow(0 0 5px ${mod_setting.layout.text_color});
 					text-shadow:0 0 10px ${mod_setting.layout.text_color};
 				}
 			`);
         } else {
             GM_addStyle(`
-				.content_main>.content_l,#hide_reply_input,.message_item,.strage_item{
+				.content_main>.content_l,#hide_reply_input,.message_item,.strage_item,.van-tabs{
 					filter:drop-shadow(0 0 5px #fffe);
 					text-shadow:0 0 10px #fffe;
 				}
@@ -391,7 +434,6 @@ function add_hide_reply_btn() {
             }
         });
         temp_div.parentElement.insertBefore(temp_btn, temp_div /*.nextSibling*/);
-        //自动按下
         document.querySelector("#hide_reply_input")?.click();
         GM_addStyle(`.content_m12>.reply_con1{margin:0 auto !important}`);
     }
@@ -433,7 +475,7 @@ function add_img_pop_btns() {
 			mod_setting.bg.change = true;
             mod_setting.bg.local = false;
             save_setting();
-            GM_notification("设置成功，点此刷新页面后生效！", "设置背景图", "https://community.cdn.sunborngame.com/prod/emoji/%E5%A5%BD%E5%A5%BD%E5%A5%BD.png", function () {
+            GM_notification("设置成功，点此刷新页面后生效！", "设置背景图", "https://community.cdn.sunborngame.com/prod/image/1727091143918.png", function () {
                 location.reload();
             });
         });
@@ -461,53 +503,12 @@ function add_img_pop_btns() {
 }
 
 
-//----------贴内楼中楼超长折叠----------
-function fold_long_replys() {
-    document.querySelectorAll(".card_con").forEach(function (item) {
-        if (!item.querySelector(".mod_reply_con")) {
-            if (item.querySelectorAll(".card_con_reply").length > 0) {
-                let temp_div = document.createElement("div");
-                temp_div.classList.add("mod_reply_con");
-                item.querySelectorAll(".card_con_reply").forEach(function (sub_item) {
-                    temp_div.appendChild(sub_item);
-                });
-                item.appendChild(temp_div);
-                if (item.querySelectorAll(".card_con_reply").length > mod_setting.post.fold_reply_count) {
-                    let temp_hei = 0;
-                    for (i = 0; i < mod_setting.post.fold_reply_count; i++) {
-                        temp_hei += item.querySelectorAll(".card_con_reply")[i].offsetHeight;
-                    }
-                    let temp_btn = document.createElement("button");
-                    temp_btn.classList.add("mod_fold_btn");
-                    temp_btn.innerHTML = `展开${item.querySelectorAll(".card_con_reply").length - mod_setting.post.fold_reply_count}条评论`;
-                    temp_btn.style = "margin-left:5%;background:unset;width:80%;border:0;cursor:pointer;";
-                    item.appendChild(temp_btn);
-                    temp_div.style = `height:${temp_hei}px;overflow-y:hidden;`;
-                    temp_btn.addEventListener("click", function () {
-                        if (temp_div.offsetHeight <= temp_hei) {
-                            temp_div.style = "";
-                            temp_btn.innerHTML = `收起${item.querySelectorAll(".card_con_reply").length - mod_setting.post.fold_reply_count}条评论`;
-                        } else {
-                            temp_div.style = `height:${temp_hei}px;overflow-y:hidden;`;
-                            temp_btn.innerHTML = `展开${item.querySelectorAll(".card_con_reply").length - mod_setting.post.fold_reply_count}条评论`;
-                            item.querySelectorAll(".card_con_reply")[0].scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'nearest'
-                            });
-                        }
-                    });
-                }
-            }
-        }
-    });
-}
-
 
 //----------贴内回复自动切换成最早----------
 
 function reply_early_seq() {
-    if (document.querySelectorAll(".comment_head div span")[0] != null) {
-        document.querySelectorAll(".comment_head div span")[0].click();
+    if (document.querySelectorAll(".comment_head div:not(.comment_head_l) span")[1] != null) {
+        document.querySelectorAll(".comment_head div:not(.comment_head_l) span")[1].click();
     }
 }
 
@@ -538,6 +539,57 @@ function big_pic_for_main_page() {
         }
     });
 }
+
+
+//----------信息页游戏角色查询入口----------
+
+function add_game_profile() {
+    if (document.querySelector(".mine_box_r") != null) {
+        if (document.querySelector("#mod_game_profile") == null) {
+            let ent = document.createElement("a");
+            ent.id = "mod_game_profile";
+            ent.innerText = "游戏角色查询";
+            if (document.location.pathname.startsWith('/own')) {
+                ent.href = "../m/userData";
+            } else {
+                ent.href = `../m/otherData${document.location.search}`;
+            }
+            ent.target = "_blank";
+            document.querySelector(".mine_box_r").appendChild(ent);
+            GM_addStyle(`
+			#mod_game_profile{
+				font-size:14px;
+				display:block;
+				text-align:center;
+				color:#fff;
+			}
+			`);
+        }
+    }
+}
+
+
+//----------帖内回复图片缩放----------
+
+function post_reply_small_img() {
+    document.querySelectorAll(".card_con .showImg").forEach(function (img) {
+        if (!img.classList.contains("mod_img") && img.naturalHeight > 300) {
+            img.style.maxHeight = "300px";
+            img.style.cursor = "zoom-in";
+            img.addEventListener("click", function () {
+                if (img.style.maxHeight == "") {
+                    img.style.maxHeight = "300px";
+                    img.style.cursor = "zoom-in";
+                } else {
+                    img.style.maxHeight = "";
+                    img.style.cursor = "zoom-out";
+                }
+            });
+            img.classList.add("mod_img");
+        }
+    });
+}
+
 
 //----------脚本设置面板----------
 
@@ -583,6 +635,7 @@ function add_plugin_setting_page() {
             document.body.appendChild(mod_div);
             mod_div.querySelector("#mod_set_p_cancel").addEventListener("click", function () {
                 mod_div.style.display = "none";
+                mod_div.querySelector("#mod_set_imgsize").innerText = "";
             });
             mod_div.querySelector("#mod_set_p_ok").addEventListener("click", function () {
                 mod_div.querySelectorAll("fieldset[name]").forEach(function (item_set) {
@@ -620,10 +673,10 @@ function add_plugin_setting_page() {
             mod_div.querySelector("#mod_set_img").addEventListener("click", function (sender) {
                 this.src = "";
                 mod_div.querySelector('fieldset[name="bg"] input[name="b64"]').value = "";
-                mod_div.querySelector("#mod_set_imgsize").innerHTML = "";
+                mod_div.querySelector("#mod_set_imgsize").innerText = "";
             });
             mod_div.querySelector("#mod_set_img").onload = function () {
-                mod_div.querySelector("#mod_set_imgsize").innerHTML = `${mod_div.querySelector("#mod_set_img").naturalWidth} × ${mod_div.querySelector("#mod_set_img").naturalHeight}`;
+                mod_div.querySelector("#mod_set_imgsize").innerText = `${mod_div.querySelector("#mod_set_img").naturalWidth} × ${mod_div.querySelector("#mod_set_img").naturalHeight}`;
                 mod_div.querySelector("#mod_set_p_loadbg").style.display = "none";
             };
             mod_div.querySelector("#mod_set_img").onerror = function () {
@@ -635,7 +688,7 @@ function add_plugin_setting_page() {
                 mod_div.querySelector('fieldset[name="layout"] input[name="text_color"]').value = "#eeeeee";
             });
             mod_div.querySelector('fieldset[name="layout"] input[name="wide_percent"]').addEventListener("input", function () {
-                mod_div.querySelector("#mod_set_wvalue").innerHTML = this.value + "% 宽度";
+                mod_div.querySelector("#mod_set_wvalue").innerText = this.value + "% 宽度";
             });
         }
     }
@@ -663,12 +716,16 @@ const setting_page = `
     <legend>帖子页面</legend>
     <label><input type="checkbox" name="hide_input">自动隐藏回复输入框</label>
 	<label><input type="checkbox" name="img_btns">查看大图界面添加长图放大、设为背景功能</label>
+	<label><input type="checkbox" name="reply_small_img">回复显示的图片可缩放</label>
 	<label><input type="checkbox" name="hide_cont_r">隐藏右侧边栏</label>
-	<label><input type="checkbox" name="fold_long_reply">自动折叠大于<input type="number" name="fold_reply_count" min="1">层的楼中楼</label>
     <label><input type="checkbox" name="seq">回复默认正序显示</label>
   </fieldset>
 </div>
 <div>
+  <fieldset name="userpage">
+    <legend>账号信息页</legend>
+	<label><input type="checkbox" name="add_game_profile">添加游戏角色查询入口</label>
+  </fieldset>
   <fieldset name="bg" style="display:flex;flex-direction: column;">
     <legend><label><input type="checkbox" name="change">背景图片</label></legend>
 	<div>
@@ -831,7 +888,7 @@ GM_addStyle(`
 
 //----------其他功能性函数----------
 
-function waitForObj(selector, callback, active_once = false, node = document, stree = true) {
+function waitForObj(selector, callback, active_once = false, node = document.body, stree = true) {
     const obvser = new MutationObserver(function () {
         //console.log("dom updated");
         if (node.querySelectorAll(selector).length > 0) {
@@ -848,13 +905,13 @@ function waitForObj(selector, callback, active_once = false, node = document, st
     });
 }
 
-function waitForObjs() {	
+function waitForObjs() {
     if (mod_setting.post.hide_input) {
         waitForObj(".reply_con1", add_hide_reply_btn);
     }
-	if (mod_setting.post.hide_cont_r) {
-		waitForObj(".reply_con1",hide_content_r_in_post);
-	}
+    if (mod_setting.post.hide_cont_r) {
+        waitForObj(".reply_con1", hide_content_r_in_post);
+    }
     if (mod_setting.post.img_btns) {
         waitForObj(".img_popup", add_img_pop_btns);
     }
@@ -865,24 +922,26 @@ function waitForObjs() {
         waitForObj(".conditions1", main_page_banner_adjust, true);
     }
     if (mod_setting.layout.main_bigpic) {
-		GM_addStyle(`.card_item .card_m .img_box{display:unset !important}`);
+        GM_addStyle(`.card_item .card_m .img_box{display:unset !important}`);
         waitForObj(".img_box img", big_pic_for_main_page);
     }
-	if (mod_setting.post.fold_long_reply) {
-		GM_addStyle(`.mod_reply_con{margin-top:5px}`);
-		waitForObj(".card_con",fold_long_replys);
-	}
+    if (mod_setting.userpage.add_game_profile) {
+        waitForObj(".mine_box_r", add_game_profile);
+    }
+    if (mod_setting.post.reply_small_img) {
+        waitForObj(".card_con .showImg", post_reply_small_img);
+    }
     waitForObj(".main", add_plugin_setting_page, true);
 }
 
 const mod_setting_default = {
     "layout": {
         "wide": false,
-		"wide_percent": 99,
+        "wide_percent": 99,
         "change_color": false,
-		"bg_color": "#444444",
-		"fore_color": "#333333",
-		"text_color": "#eeeeee",
+        "bg_color": "#444444",
+        "fore_color": "#333333",
+        "text_color": "#eeeeee",
         "main_bigpic": false
     },
     "bg": {
@@ -890,15 +949,17 @@ const mod_setting_default = {
         "local": false,
         "url": "",
         "b64": "",
-		"bg_mode": "blur"
+        "bg_mode": "blur"
     },
     "post": {
         "hide_input": false,
         "seq": false,
         "img_btns": false,
-		"hide_cont_r": false,
-		"fold_long_reply": false,
-		"fold_reply_count": 3
+        "hide_cont_r": false,
+		"reply_small_img": false
+    },
+    "userpage": {
+        "add_game_profile": false
     }
 };
 
@@ -911,6 +972,10 @@ function save_setting() {
 function load_setting() {
     mod_setting = GM_getValue("settings", mod_setting_default);
     for (let attr_set in mod_setting_default) {
+        if (!mod_setting[attr_set]) {
+            mod_setting[attr_set] = mod_setting_default[attr_set];
+            continue;
+        }
         for (let attr in mod_setting_default[attr_set]) {
             if (!mod_setting[attr_set][attr]) {
                 mod_setting[attr_set][attr] = mod_setting_default[attr_set][attr];
