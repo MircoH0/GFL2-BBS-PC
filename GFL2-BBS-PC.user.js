@@ -2,14 +2,16 @@
 // @name        追放官方社区电脑版页面调整
 // @namespace   GFL2-PC-BBS
 // @license     MIT
-// @icon        https://community.cdn.sunborngame.com/prod/image/1727091143918.png
+// @icon        https://community-cdn.exiliumgf.com/prod/image/1727091143918.png
 // @match       *://gf2-bbs.sunborngame.com/*
+// @match       *://gf2-bbs.exiliumgf.com/*
 // @exclude     *://gf2-bbs.sunborngame.com/m/*
+// @exclude     *://gf2-bbs.exiliumgf.com/m/*
 // @grant       GM_addStyle
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.2.3
+// @version     0.2.8.3
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -52,7 +54,7 @@ function adjust_layout() {
 }
 
 ::-webkit-scrollbar-thumb{
-  background-color:${mod_setting.layout.text_color};
+  background-color:#f26c1c;
   border-style: dashed;
   border-radius:10px;
   border-color: transparent;
@@ -280,6 +282,16 @@ function adjust_layout() {
 .login_content{max-width:unset !important}
 
 
+/*-----话题页-----*/
+
+#con_m:has(.top_box){width:calc(100% - 230px) !important}
+
+#con_m:has(.top_box) .card_item{width:unset !important}
+
+#con_m>.top_box{width:unset !important}
+
+
+
 `);
     }
 }
@@ -318,7 +330,7 @@ html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign
 ,.t_box>div,.sign,.task,.content_rule,.gift_user,.van-action-sheet__item,.content .van-cell,.content .head1 select
 ,.van-search__content,.user_box .user_item input,.type_box,.head_item,.van-dialog,.van-button--default
 ,.content_r>.btns:has(.btn),.content_m12>.reply_con1,.message_pro,.hot_words
-,.icon_box,.get_box,.theme,.emoji_types,.head_r .c_box,.com_item>div{
+,.icon_box,.get_box,.theme,.emoji_types,.head_r .c_box,.com_item>div,.sear_themesbox>ul{
   background-color:${mod_setting.layout.fore_color} !important;
   background:${mod_setting.layout.fore_color} !important;
 }
@@ -348,6 +360,8 @@ html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign
 .img_popup{background-color:transparent !important}
 
 .login_box input{color:#000 !important}
+
+::-webkit-scrollbar-thumb{background-color:${mod_setting.layout.text_color}}
 
 `);
     }
@@ -504,11 +518,17 @@ function add_img_pop_btns() {
 
 
 
-//----------贴内回复自动切换成最早----------
+//----------贴内回复自动切换成最新/最早----------
 
 function reply_early_seq() {
-    if (document.querySelectorAll(".comment_head div:not(.comment_head_l) span")[1] != null) {
-        document.querySelectorAll(".comment_head div:not(.comment_head_l) span")[1].click();
+    let temp_var
+    if (mod_setting.post.seq == 2) {
+        temp_var = 2;
+    } else if (mod_setting.post.seq == 1) {
+        temp_var = 1;
+    }
+    if (document.querySelectorAll(".comment_head div:not(.comment_head_l) span")[temp_var] != null) {
+        document.querySelectorAll(".comment_head div:not(.comment_head_l) span")[temp_var].click();
     }
 }
 
@@ -572,20 +592,27 @@ function add_game_profile() {
 //----------帖内回复图片缩放----------
 
 function post_reply_small_img() {
-    document.querySelectorAll(".card_con .showImg").forEach(function (img) {
-        if (!img.classList.contains("mod_img") && img.naturalHeight > 300) {
+    document.querySelectorAll(".card_con_text .showImg,.card_con_reply .showImg").forEach(function (img) {
+        if (img.getAttribute("mod_img") != "1" && img.naturalHeight > 300) {
             img.style.maxHeight = "300px";
-            img.style.cursor = "zoom-in";
-            img.addEventListener("click", function () {
-                if (img.style.maxHeight == "") {
-                    img.style.maxHeight = "300px";
-                    img.style.cursor = "zoom-in";
-                } else {
-                    img.style.maxHeight = "";
-                    img.style.cursor = "zoom-out";
-                }
-            });
-            img.classList.add("mod_img");
+            if (mod_setting.post.reply_scale_img) {
+                img.style.cursor = "zoom-in";
+                img.addEventListener("click", function (event) {
+                    event.stopImmediatePropagation();
+                    if (img.style.maxHeight == "") {
+                        img.style.maxHeight = "300px";
+                        img.style.cursor = "zoom-in";
+                        img.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'nearest'
+                        });
+                    } else {
+                        img.style.maxHeight = "";
+                        img.style.cursor = "zoom-out";
+                    }
+                });
+            }
+            img.setAttribute("mod_img", "1");
         }
     });
 }
@@ -716,9 +743,15 @@ const setting_page = `
     <legend>帖子页面</legend>
     <label><input type="checkbox" name="hide_input">自动隐藏回复输入框</label>
 	<label><input type="checkbox" name="img_btns">查看大图界面添加长图放大、设为背景功能</label>
-	<label><input type="checkbox" name="reply_small_img">回复显示的图片可缩放</label>
+	<label><input type="checkbox" name="reply_small_img">缩小回复显示的图片(<label><input type="checkbox" name="reply_scale_img">原地放大</label>)</label>
 	<label><input type="checkbox" name="hide_cont_r">隐藏右侧边栏</label>
-    <label><input type="checkbox" name="seq">回复默认正序显示</label>
+    <div style="display:flex">
+	回复以
+	<label><input type="radio" name="seq" value="2">最新</label>
+	<label><input type="radio" name="seq" value="1">最早</label>
+	<label><input type="radio" name="seq" value="0">默认</label>
+	顺序显示
+	</div>
   </fieldset>
 </div>
 <div>
@@ -915,7 +948,7 @@ function waitForObjs() {
     if (mod_setting.post.img_btns) {
         waitForObj(".img_popup", add_img_pop_btns);
     }
-    if (mod_setting.post.seq) {
+    if (mod_setting.post.seq != 0) {
         waitForObj(".van-list .card_item", reply_early_seq, true);
     }
     if (mod_setting.layout.wide) {
@@ -929,7 +962,7 @@ function waitForObjs() {
         waitForObj(".mine_box_r", add_game_profile);
     }
     if (mod_setting.post.reply_small_img) {
-        waitForObj(".card_con .showImg", post_reply_small_img);
+        waitForObj(".card_con_text .showImg,.card_con_reply .showImg", post_reply_small_img);
     }
     waitForObj(".main", add_plugin_setting_page, true);
 }
@@ -953,10 +986,11 @@ const mod_setting_default = {
     },
     "post": {
         "hide_input": false,
-        "seq": false,
+        "seq": 0,
         "img_btns": false,
         "hide_cont_r": false,
-		"reply_small_img": false
+		"reply_small_img": false,
+		"reply_scale_img": false
     },
     "userpage": {
         "add_game_profile": false
