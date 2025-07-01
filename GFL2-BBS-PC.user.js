@@ -11,7 +11,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.2.8.4
+// @version     0.2.9
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
