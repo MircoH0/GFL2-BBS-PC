@@ -11,7 +11,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.2.8.3
+// @version     0.2.8.4
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -296,7 +296,6 @@ function adjust_layout() {
     }
 }
 
-
 //----------主页滚动图调整----------
 
 function main_page_banner_adjust() {
@@ -308,7 +307,6 @@ function main_page_banner_adjust() {
     }
 }
 
-
 //----------明暗模式----------
 
 function custom_color() {
@@ -316,29 +314,20 @@ function custom_color() {
         GM_addStyle(`
 
 /*---背景色---*/
-html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign_box,.content_l
-,.hot_words>.fire_items div,.van-list,.content_m,.mine_b>.mine_bl,.mine_b>.mine_br,.content_u>.mask>.head_box
-,.user_box,.content_m12>.reply_con1>.reply_con_child,.content_m12>.reply_con1>.reply_con_child .w-e-text-container{
+html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign_box,.content_l,.hot_words>.fire_items div,.van-list,.content_m,.mine_b>.mine_bl,.mine_b>.mine_br,.content_u>.mask>.head_box,.user_box,.content_m12>.reply_con1>.reply_con_child,.content_m12>.reply_con1>.reply_con_child .w-e-text-container{
   background:${mod_setting.layout.bg_color} !important;
   background-color:${mod_setting.layout.bg_color} !important;
   color:${mod_setting.layout.text_color} !important;
 }
 
 /*---前景色---*/
-.index_news,.conditions1,.card_item,.van-button--primary,.van-button--plain,.comment_head,.post_box
-,.van-action-sheet__cancel,.list_wrap li,.btn1,.btn2,.item,.w-e-toolbar,.w-e-text-container,.top_box
-,.t_box>div,.sign,.task,.content_rule,.gift_user,.van-action-sheet__item,.content .van-cell,.content .head1 select
-,.van-search__content,.user_box .user_item input,.type_box,.head_item,.van-dialog,.van-button--default
-,.content_r>.btns:has(.btn),.content_m12>.reply_con1,.message_pro,.hot_words
-,.icon_box,.get_box,.theme,.emoji_types,.head_r .c_box,.com_item>div,.sear_themesbox>ul{
+.index_news,.conditions1,.card_item,.van-button--primary,.van-button--plain,.comment_head,.post_box,.van-action-sheet__cancel,.list_wrap li,.btn1,.btn2,.item,.w-e-toolbar,.w-e-text-container,.top_box,.t_box>div,.sign,.task,.content_rule,.gift_user,.van-action-sheet__item,.content .van-cell,.content .head1 select,.van-search__content,.user_box .user_item input,.type_box,.head_item,.van-dialog,.van-button--default,.content_r>.btns:has(.btn),.content_m12>.reply_con1,.message_pro,.hot_words,.icon_box,.get_box,.theme,.emoji_types,.head_r .c_box,.com_item>div,.sear_themesbox>ul{
   background-color:${mod_setting.layout.fore_color} !important;
   background:${mod_setting.layout.fore_color} !important;
 }
 
 /*---主要文字---*/
-.van-tab,.card_tit p,.card_m1 div,.comment_head>span,.van-action-sheet__cancel,.list_wrap>p,.show_message p
-,.show_message span,.mine_box p,.item>p,.sign_box>p,.gift_user,.comment_head .ac,.van-field__control
-,.content .head1 select,.card_con_reply p>i>i,.mine_box .data_box span,.van-button--default,.btns span{color:${mod_setting.layout.text_color} !important}
+.van-tab,.card_tit p,.card_m1 div,.comment_head>span,.van-action-sheet__cancel,.list_wrap>p,.show_message p,.show_message span,.mine_box p,.item>p,.sign_box>p,.gift_user,.comment_head .ac,.van-field__control,.content .head1 select,.card_con_reply p>i>i,.mine_box .data_box span,.van-button--default,.btns span{color:${mod_setting.layout.text_color} !important}
 
 .sign_box>p b{color:#ff0 !important}
 
@@ -346,8 +335,7 @@ html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign
 
 .card_m1 div a,.show_message a{color:#999 !important}
 
-.message .me_con,.message_item>p,.content_l .nav_item:not(.nav_item_c),.content_l ul li:not(.li_c),.content_r .btn
-,.index_con .strage_item>div span{color:unset !important}
+.message .me_con,.message_item>p,.content_l .nav_item:not(.nav_item_c),.content_l ul li:not(.li_c),.content_r .btn,.index_con .strage_item>div span{color:unset !important}
 
 .video_box input,.sear_themesbox input{color:initial !important}
 
@@ -366,7 +354,6 @@ html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign
 `);
     }
 }
-
 
 //----------自定义背景----------
 
@@ -400,8 +387,7 @@ body{
 .main,.van-button,.post_box{opacity:0.95}
 .index_con img,.card_item img{opacity:1}
 /*.message_item,.strage_item{background:#4444}*/
-/*.message .me_con,.message_item>p,.content_l .nav_item:not(.nav_item_c),.content_l ul li:not(.li_c),.content_r .btn
-,.index_con .strage_item>div span{color:unset !important}*/
+/*.message .me_con,.message_item>p,.content_l .nav_item:not(.nav_item_c),.content_l ul li:not(.li_c),.content_r .btn,.index_con .strage_item>div span{color:unset !important}*/
 `);
         if (mod_setting.layout.change_color == true) {
             GM_addStyle(`
@@ -420,14 +406,13 @@ body{
 				,.index_con .strage_item>div span{color:unset !important}
 			`);
         }
-		if (mod_setting.bg.bg_mode == "brightness") {
-		    GM_addStyle(`body{backdrop-filter:brightness(0.35);}`);
-		} else {
-		    GM_addStyle(`body{backdrop-filter:blur(3px);}`);
-		}
+        if (mod_setting.bg.bg_mode == "brightness") {
+            GM_addStyle(`body{backdrop-filter:brightness(0.35);}`);
+        } else {
+            GM_addStyle(`body{backdrop-filter:blur(3px);}`);
+        }
     }
 }
-
 
 //----------隐藏帖子页回复框按钮----------
 
@@ -456,10 +441,10 @@ function add_hide_reply_btn() {
 //----------隐藏帖子页右边边栏----------
 
 function hide_content_r_in_post() {
-	if(document.querySelector(".content_r").style.display != "none") {
-		document.querySelector(".content_r").style.display = "none";
-		document.querySelector(".content_m12").style = "width:calc(100% - 60px) !important";
-	}
+    if (document.querySelector(".content_r").style.display != "none") {
+        document.querySelector(".content_r").style.display = "none";
+        document.querySelector(".content_m12").style = "width:calc(100% - 60px) !important";
+    }
 }
 
 //----------帖子内点击图片查看附加功能----------
@@ -486,7 +471,7 @@ function add_img_pop_btns() {
         });
         temp_button2.addEventListener("click", function () {
             mod_setting.bg.url = document.querySelector(".img_popup .swiper-slide-active img").src;
-			mod_setting.bg.change = true;
+            mod_setting.bg.change = true;
             mod_setting.bg.local = false;
             save_setting();
             GM_notification("设置成功，点此刷新页面后生效！", "设置背景图", "https://community.cdn.sunborngame.com/prod/image/1727091143918.png", function () {
@@ -516,8 +501,6 @@ function add_img_pop_btns() {
     }
 }
 
-
-
 //----------贴内回复自动切换成最新/最早----------
 
 function reply_early_seq() {
@@ -532,6 +515,13 @@ function reply_early_seq() {
     }
 }
 
+//----------设置帖子页面的标题----------
+function set_post_page_title() {
+    let t_title = document.querySelector(".card_m1>p").innerText;
+    if (document.title.startsWith(t_title) == false) {
+        document.title = t_title + " - " + document.title;
+    }
+}
 
 //----------首页中查看大图----------
 
@@ -560,7 +550,6 @@ function big_pic_for_main_page() {
     });
 }
 
-
 //----------信息页游戏角色查询入口----------
 
 function add_game_profile() {
@@ -587,7 +576,6 @@ function add_game_profile() {
         }
     }
 }
-
 
 //----------帖内回复图片缩放----------
 
@@ -616,7 +604,6 @@ function post_reply_small_img() {
         }
     });
 }
-
 
 //----------脚本设置面板----------
 
@@ -721,7 +708,6 @@ function add_plugin_setting_page() {
     }
 }
 
-
 const setting_page = `
 <span>页面调整设置</span>
 <button id="mod_set_p_cancel">×</button>
@@ -745,6 +731,7 @@ const setting_page = `
 	<label><input type="checkbox" name="img_btns">查看大图界面添加长图放大、设为背景功能</label>
 	<label><input type="checkbox" name="reply_small_img">缩小回复显示的图片(<label><input type="checkbox" name="reply_scale_img">原地放大</label>)</label>
 	<label><input type="checkbox" name="hide_cont_r">隐藏右侧边栏</label>
+	<label><input type="checkbox" name="post_title_as_page_title">将帖子标题添加到网页的标题前</label>
     <div style="display:flex">
 	回复以
 	<label><input type="radio" name="seq" value="2">最新</label>
@@ -781,7 +768,6 @@ const setting_page = `
 </div>
 
 `;
-
 
 GM_addStyle(`
 
@@ -918,53 +904,135 @@ GM_addStyle(`
 
 `);
 
-
 //----------其他功能性函数----------
 
 function waitForObj(selector, callback, active_once = false, node = document.body, stree = true) {
-    const obvser = new MutationObserver(function () {
-        //console.log("dom updated");
-        if (node.querySelectorAll(selector).length > 0) {
-            //console.log(`found: ${selector}`);
-            callback(obvser);
-            if (active_once == true) {
-                obvser.disconnect();
+    // 支持传入单个选择器和回调函数
+    if (typeof selector === 'string') {
+        const obvser = new MutationObserver(function () {
+            //console.log("dom updated");
+            if (node.querySelectorAll(selector).length > 0) {
+                //console.log(`found: ${selector}`);
+                callback(obvser);
+                if (active_once == true) {
+                    obvser.disconnect();
+                }
             }
-        }
-    });
-    obvser.observe(document.body, {
-        childList: true,
-        subtree: stree
-    });
+        });
+        obvser.observe(document.body, {
+            childList: true,
+            subtree: stree
+        });
+        return obvser;
+    }
+
+    // 支持传入多个元素监听配置
+    // selector格式: [{selector: '.class', callback: func, active_once: true}, ...]
+    if (Array.isArray(selector)) {
+        const obvser = new MutationObserver(function () {
+            //console.log("dom updated");
+            selector.forEach(item => {
+                if (node.querySelectorAll(item.selector).length > 0) {
+                    //console.log(`found: ${item.selector}`);
+                    item.callback(obvser);
+                    if (item.active_once === true) {
+                        // 如果设置了active_once，则从监听列表中移除该项
+                        selector = selector.filter(s => s !== item);
+                        // 如果监听列表为空，则断开观察器
+                        if (selector.length === 0) {
+                            obvser.disconnect();
+                        }
+                    }
+                }
+            });
+        });
+        obvser.observe(document.body, {
+            childList: true,
+            subtree: stree
+        });
+        return obvser;
+    }
 }
 
 function waitForObjs() {
+    // 创建监听配置数组
+    const listeners = [];
+
+    // 添加需要监听的元素和对应的回调函数
     if (mod_setting.post.hide_input) {
-        waitForObj(".reply_con1", add_hide_reply_btn);
+        listeners.push({
+            selector: ".reply_con1",
+            callback: add_hide_reply_btn,
+            active_once: false
+        });
     }
     if (mod_setting.post.hide_cont_r) {
-        waitForObj(".reply_con1", hide_content_r_in_post);
+        listeners.push({
+            selector: ".reply_con1",
+            callback: hide_content_r_in_post,
+            active_once: false
+        });
     }
     if (mod_setting.post.img_btns) {
-        waitForObj(".img_popup", add_img_pop_btns);
+        listeners.push({
+            selector: ".img_popup",
+            callback: add_img_pop_btns,
+            active_once: false
+        });
     }
     if (mod_setting.post.seq != 0) {
-        waitForObj(".van-list .card_item", reply_early_seq, true);
+        listeners.push({
+            selector: ".van-list .card_item",
+            callback: reply_early_seq,
+            active_once: true
+        });
     }
     if (mod_setting.layout.wide) {
-        waitForObj(".conditions1", main_page_banner_adjust, true);
+        listeners.push({
+            selector: ".conditions1",
+            callback: main_page_banner_adjust,
+            active_once: true
+        });
     }
     if (mod_setting.layout.main_bigpic) {
         GM_addStyle(`.card_item .card_m .img_box{display:unset !important}`);
-        waitForObj(".img_box img", big_pic_for_main_page);
+        listeners.push({
+            selector: ".img_box img",
+            callback: big_pic_for_main_page,
+            active_once: false
+        });
     }
     if (mod_setting.userpage.add_game_profile) {
-        waitForObj(".mine_box_r", add_game_profile);
+        listeners.push({
+            selector: ".mine_box_r",
+            callback: add_game_profile,
+            active_once: false
+        });
     }
     if (mod_setting.post.reply_small_img) {
-        waitForObj(".card_con_text .showImg,.card_con_reply .showImg", post_reply_small_img);
+        listeners.push({
+            selector: ".card_con_text .showImg,.card_con_reply .showImg",
+            callback: post_reply_small_img,
+            active_once: false
+        });
     }
-    waitForObj(".main", add_plugin_setting_page, true);
+    if (mod_setting.post.post_title_as_page_title) {
+        listeners.push({
+            selector: ".card_m1>p",
+            callback: set_post_page_title,
+            active_once: false
+        });
+    }
+    listeners.push({
+        selector: ".main",
+        callback: add_plugin_setting_page,
+        active_once: true
+    });
+
+    // 使用新的waitForObj函数一次性监听所有元素
+    if (listeners.length > 0) {
+        waitForObj(listeners);
+    }
 }
 
 const mod_setting_default = {
@@ -989,8 +1057,9 @@ const mod_setting_default = {
         "seq": 0,
         "img_btns": false,
         "hide_cont_r": false,
-		"reply_small_img": false,
-		"reply_scale_img": false
+        "reply_small_img": false,
+        "reply_scale_img": false,
+        "post_title_as_page_title": false
     },
     "userpage": {
         "add_game_profile": false
@@ -1021,15 +1090,14 @@ function load_setting() {
 (function () {
     'use strict';
 
-	load_setting();
-	//console.log(mod_setting);
-	
+    load_setting();
+    //console.log(mod_setting);
+
     adjust_layout();
     custom_color();
     set_bg_img();
     waitForObjs();
 
 })();
-
 
 var setting_icon = `data:image/svg+xml;base64,PHN2ZyBkYXRhLXYtYzFhZmFhNDU9IiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjUiIGhlaWdodD0iMjUiIHZpZXdCb3g9IjAgMCAyNCAyNCIgY2xhc3M9InN2ZyI+PGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZWVlIiBzdHJva2Utd2lkdGg9IjEuNSI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMyIvPjxwYXRoIGQ9Ik0xMy43NjUgMi4xNTJDMTMuMzk4IDIgMTIuOTMyIDIgMTIgMmMtLjkzMiAwLTEuMzk4IDAtMS43NjUuMTUyYTIgMiAwIDAgMC0xLjA4MyAxLjA4M2MtLjA5Mi4yMjMtLjEyOS40ODQtLjE0My44NjNhMS42MTcgMS42MTcgMCAwIDEtLjc5IDEuMzUzYTEuNjE3IDEuNjE3IDAgMCAxLTEuNTY3LjAwOGMtLjMzNi0uMTc4LS41NzktLjI3Ni0uODItLjMwOGEyIDIgMCAwIDAtMS40NzguMzk2QzQuMDQgNS43OSAzLjgwNiA2LjE5MyAzLjM0IDdjLS40NjYuODA3LS43IDEuMjEtLjc1MSAxLjYwNWEyIDIgMCAwIDAgLjM5NiAxLjQ3OWMuMTQ4LjE5Mi4zNTUuMzUzLjY3Ni41NTVjLjQ3My4yOTcuNzc3LjgwMy43NzcgMS4zNjFjMCAuNTU4LS4zMDQgMS4wNjQtLjc3NyAxLjM2Yy0uMzIxLjIwMy0uNTI5LjM2NC0uNjc2LjU1NmEyIDIgMCAwIDAtLjM5NiAxLjQ3OWMuMDUyLjM5NC4yODUuNzk4Ljc1IDEuNjA1Yy40NjcuODA3LjcgMS4yMSAxLjAxNSAxLjQ1M2EyIDIgMCAwIDAgMS40NzkuMzk2Yy4yNC0uMDMyLjQ4My0uMTMuODE5LS4zMDhhMS42MTcgMS42MTcgMCAwIDEgMS41NjcuMDA4Yy40ODMuMjguNzcuNzk1Ljc5IDEuMzUzYy4wMTQuMzguMDUuNjQuMTQzLjg2M2EyIDIgMCAwIDAgMS4wODMgMS4wODNDMTAuNjAyIDIyIDExLjA2OCAyMiAxMiAyMmMuOTMyIDAgMS4zOTggMCAxLjc2NS0uMTUyYTIgMiAwIDAgMCAxLjA4My0xLjA4M2MuMDkyLS4yMjMuMTI5LS40ODMuMTQzLS44NjNjLjAyLS41NTguMzA3LTEuMDc0Ljc5LTEuMzUzYTEuNjE3IDEuNjE3IDAgMCAxIDEuNTY3LS4wMDhjLjMzNi4xNzguNTc5LjI3Ni44MTkuMzA4YTIgMiAwIDAgMCAxLjQ3OS0uMzk2Yy4zMTUtLjI0Mi41NDgtLjY0NiAxLjAxNC0xLjQ1M2MuNDY2LS44MDcuNy0xLjIxLjc1MS0xLjYwNWEyIDIgMCAwIDAtLjM5Ni0xLjQ3OWMtLjE0OC0uMTkyLS4zNTUtLjM1My0uNjc2LS41NTVBMS42MTcgMS42MTcgMCAwIDEgMTkuNTYyIDEyYzAtLjU1OC4zMDQtMS4wNjQuNzc3LTEuMzZjLjMyMS0uMjAzLjUyOS0uMzY0LjY3Ni0uNTU2YTIgMiAwIDAgMCAuMzk2LTEuNDc5Yy0uMDUyLS4zOTQtLjI4NS0uNzk4LS43NS0xLjYwNWMtLjQ2Ny0uODA3LS43LTEuMjEtMS4wMTUtMS40NTNhMiAyIDAgMCAwLTEuNDc5LS4zOTZjLS4yNC4wMzItLjQ4My4xMy0uODIuMzA4YTEuNjE3IDEuNjE3IDAgMCAxLTEuNTY2LS4wMDhhMS42MTcgMS42MTcgMCAwIDEtLjc5LTEuMzUzYy0uMDE0LS4zOC0uMDUtLjY0LS4xNDMtLjg2M2EyIDIgMCAwIDAtMS4wODMtMS4wODNaIi8+PC9nPjwvc3ZnPg==`;
