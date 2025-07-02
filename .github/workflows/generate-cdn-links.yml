@@ -16,9 +16,12 @@ jobs:
 
       - name: Generate CDN links
         run: |
+          # 确保 dist 目录存在
+          mkdir -p dist
+          
           for file in $(find . -name "*.user.js" -type f); do
             filename=$(basename "$file")
-            cdn_file="${filename%.*}-cdn.user.js"
+            cdn_file="dist/${filename%.*}.user.js"
             
             # 生成 jsDelivr CDN 链接
             cdn_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@master/${cdn_file}"
