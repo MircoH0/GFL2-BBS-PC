@@ -24,7 +24,7 @@ jobs:
           
           for file in $(find . -name "*.user.js" -type f); do
             filename=$(basename "$file")
-            cdn_file="dist/${filename%.*}.user.js"
+            cdn_file="dist/$filename"
             
             # 生成 jsDelivr CDN 链接
             cdn_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@master/${cdn_file}"
