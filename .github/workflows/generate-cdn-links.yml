@@ -63,6 +63,6 @@ jobs:
           
           # 提交更改
           if git status --porcelain | grep .; then
-            git commit -m "Update CDN links for userscripts"
+            git commit -m "Update CDN links"
             git push
           fi
