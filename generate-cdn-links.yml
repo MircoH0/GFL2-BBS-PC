@@ -1,0 +1,68 @@
+name: Generate CDN Links
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '**.user.js'
+    branches:
+      - master
+
+jobs:
+  generate-cdn:
+    runs-on: ubuntu-latest
+    permissions:
+      # 需要写入权限来创建提交
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate CDN links
+        run: |
+          # 确保 dist 目录存在
+          mkdir -p dist
+          
+          for file in $(find . -name "*.user.js" -type f); do
+            filename=$(basename "$file")
+            cdn_file="dist/$filename"
+            
+            # 生成 jsDelivr CDN 链接
+            cdn_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@master/${cdn_file}"
+            update_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@master/${cdn_file}"
+            
+            # 处理文件内容
+            awk -v cdn_url="$cdn_url" -v update_url="$update_url" '
+            BEGIN { in_metadata = 0; metadata_end = 0; printed_urls = 0 }
+            {
+              if ($0 ~ /^\/\/ ==UserScript==/) {
+                in_metadata = 1
+                print $0
+                print "// @downloadURL    " cdn_url
+                print "// @updateURL      " update_url
+                printed_urls = 1
+                next
+              }
+              if (in_metadata && $0 ~ /^\/\/ =+=UserScript=+=/) {
+                in_metadata = 0
+                metadata_end = 1
+              }
+              if (in_metadata && !printed_urls && ($0 ~ /^\/\/ @downloadURL/ || $0 ~ /^\/\/ @updateURL/)) {
+                next  # 跳过旧的 downloadURL 和 updateURL
+              }
+              print $0
+            }' "$file" > "$cdn_file"
+            
+            # 提交新文件
+            git add "$cdn_file"
+          done
+          
+          # 配置 Git
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # 提交更改
+          if git status --porcelain | grep .; then
+            git commit -m "Update CDN links"
+            git push
+          fi
