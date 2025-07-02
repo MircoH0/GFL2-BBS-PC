@@ -1,6 +1,7 @@
 name: Generate CDN Links
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - '**.user.js'
