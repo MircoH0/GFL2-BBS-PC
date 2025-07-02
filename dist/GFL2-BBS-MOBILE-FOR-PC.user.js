@@ -1,6 +1,6 @@
 // ==UserScript==
-// @downloadURL    https://cdn.jsdelivr.net/gh/MircoH0/GFL2-BBS-PC@master/dist/GFL2-BBS-MOBILE-FOR-PC.user.js
-// @updateURL      https://cdn.jsdelivr.net/gh/MircoH0/GFL2-BBS-PC@master/dist/GFL2-BBS-MOBILE-FOR-PC.user.js
+// @downloadURL    https://cdn.jsdelivr.net/gh/MircoH0/GFL2-BBS-PC@mobile/dist/GFL2-BBS-MOBILE-FOR-PC.user.js
+// @updateURL      https://cdn.jsdelivr.net/gh/MircoH0/GFL2-BBS-PC@mobile/dist/GFL2-BBS-MOBILE-FOR-PC.user.js
 // @name        追放官方社区移动版电脑宽屏页面适配
 // @namespace   GFL2-PC-BBS
 // @license     MIT
