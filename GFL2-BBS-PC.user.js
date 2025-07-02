@@ -907,6 +907,7 @@ GM_addStyle(`
 //----------其他功能性函数----------
 
 function waitForObj(selector, callback, active_once = false, node = document.body, stree = true) {
+    /*
     // 支持传入单个选择器和回调函数
     if (typeof selector === 'string') {
         const obvser = new MutationObserver(function () {
@@ -925,7 +926,8 @@ function waitForObj(selector, callback, active_once = false, node = document.bod
         });
         return obvser;
     }
-
+    */
+	
     // 支持传入多个元素监听配置
     // selector格式: [{selector: '.class', callback: func, active_once: true}, ...]
     if (Array.isArray(selector)) {
