@@ -28,8 +28,8 @@ jobs:
             cdn_file="dist/$filename"
             
             # 生成 jsDelivr CDN 链接
-            cdn_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@master/${cdn_file}"
-            update_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@master/${cdn_file}"
+            cdn_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@mobile/${cdn_file}"
+            update_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@mobile/${cdn_file}"
             
             # 处理文件内容
             awk -v cdn_url="$cdn_url" -v update_url="$update_url" '
