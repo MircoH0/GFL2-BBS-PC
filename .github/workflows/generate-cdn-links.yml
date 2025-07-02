@@ -5,7 +5,7 @@ on:
     paths:
       - '**.user.js'
     branches:
-      - main
+      - master
 
 jobs:
   generate-cdn:
@@ -21,8 +21,8 @@ jobs:
             cdn_file="${filename%.*}-cdn.user.js"
             
             # 生成 jsDelivr CDN 链接
-            cdn_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}/${file#./}"
-            update_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}/${file#./}"
+            cdn_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}/${cdn_file}"
+            update_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}/${cdn_file}"
             
             # 处理文件内容
             awk -v cdn_url="$cdn_url" -v update_url="$update_url" '
