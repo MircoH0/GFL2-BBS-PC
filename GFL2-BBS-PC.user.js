@@ -11,7 +11,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.2.9
+// @version     0.2.9.1
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -384,7 +384,7 @@ body{
   background:unset !important;
   backdrop-filter:blur(3px);
 }
-.main,.van-button,.post_box{opacity:0.95}
+.main,.van-button,.post_box{opacity:${mod_setting.bg.opacity / 100}}
 .index_con img,.card_item img{opacity:1}
 /*.message_item,.strage_item{background:#4444}*/
 /*.message .me_con,.message_item>p,.content_l .nav_item:not(.nav_item_c),.content_l ul li:not(.li_c),.content_r .btn,.index_con .strage_item>div span{color:unset !important}*/
@@ -516,6 +516,7 @@ function reply_early_seq() {
 }
 
 //----------设置帖子页面的标题----------
+
 function set_post_page_title() {
     let t_title = document.querySelector(".card_m1>p").innerText;
     if (document.title.startsWith(t_title) == false) {
@@ -702,7 +703,10 @@ function add_plugin_setting_page() {
                 mod_div.querySelector('fieldset[name="layout"] input[name="text_color"]').value = "#eeeeee";
             });
             mod_div.querySelector('fieldset[name="layout"] input[name="wide_percent"]').addEventListener("input", function () {
-                mod_div.querySelector("#mod_set_wvalue").innerText = this.value + "% 宽度";
+                mod_div.querySelector("#mod_set_w_value").innerText = this.value + "% 宽度";
+            });
+			mod_div.querySelector('fieldset[name="bg"] input[name="opacity"]').addEventListener("input", function () {
+                mod_div.querySelector("#mod_set_o_value").innerText = this.value + "%";
             });
         }
     }
@@ -715,7 +719,7 @@ const setting_page = `
 <div>
   <fieldset name="layout" style="display:flex;flex-direction: column;">
     <legend>布局与颜色</legend>
-    <label><input type="checkbox" name="wide">宽屏布局 <input type="range" name="wide_percent" min="70" max="100" step="0.2"><span id="mod_set_wvalue"></span></label>
+    <label><input type="checkbox" name="wide">宽屏布局 <input type="range" name="wide_percent" min="70" max="100" step="0.2"><span id="mod_set_w_value"></span></label>
 	<label><input type="checkbox" name="main_bigpic">主页图片点击放大</label>
     <label><input type="checkbox" name="change_color">自定义颜色</label>
 	<div style="display:flex">
@@ -749,6 +753,7 @@ const setting_page = `
   <fieldset name="bg" style="display:flex;flex-direction: column;">
     <legend><label><input type="checkbox" name="change">背景图片</label></legend>
 	<div>
+	<label>界面元素不透明度：<input type="range" name="opacity" min="50" max="100" step="1"><span id="mod_set_o_value"></span></label>
 	背景图片处理：
 	<label style="display:inline-block"><input type="radio" name="bg_mode" value="blur">模糊</label>
 	<label style="display:inline-block"><input type="radio" name="bg_mode" value="brightness">降低亮度</label>
@@ -798,7 +803,7 @@ GM_addStyle(`
   border-style:solid;
   border-radius:5px;
   box-shadow:0 0 15px #ccc6;
-  background-color:#eee7 !important;
+  background-color:#ddd8 !important;
   backdrop-filter:blur(15px);
   text-shadow: 0 0 20px #999;
   backdrop-filter:blur(10px);
@@ -907,7 +912,6 @@ GM_addStyle(`
 //----------其他功能性函数----------
 
 function waitForObj(selector, callback, active_once = false, node = document.body, stree = true) {
-    
     // 支持传入单个选择器和回调函数
     if (typeof selector === 'string') {
         const obvser = new MutationObserver(function () {
@@ -926,8 +930,7 @@ function waitForObj(selector, callback, active_once = false, node = document.bod
         });
         return obvser;
     }
-    
-	
+
     // 支持传入多个元素监听配置
     // selector格式: [{selector: '.class', callback: func, active_once: true}, ...]
     if (Array.isArray(selector)) {
@@ -1049,6 +1052,7 @@ const mod_setting_default = {
     },
     "bg": {
         "change": false,
+		"opacity": 98,
         "local": false,
         "url": "",
         "b64": "",
