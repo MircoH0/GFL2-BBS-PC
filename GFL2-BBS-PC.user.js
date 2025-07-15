@@ -11,7 +11,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.2.9.1
+// @version     0.2.10
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -385,7 +385,7 @@ body{
   backdrop-filter:blur(3px);
 }
 .main,.van-button,.post_box{opacity:${mod_setting.bg.opacity / 100}}
-.index_con img,.card_item img{opacity:1}
+/*.index_con img,.card_item img{opacity:1}*/
 /*.message_item,.strage_item{background:#4444}*/
 /*.message .me_con,.message_item>p,.content_l .nav_item:not(.nav_item_c),.content_l ul li:not(.li_c),.content_r .btn,.index_con .strage_item>div span{color:unset !important}*/
 `);
@@ -530,14 +530,17 @@ function big_pic_for_main_page() {
     document.querySelectorAll(".img_box img").forEach(function (img) {
         if (img.classList.contains("clickimg") == false) {
             img.style.cursor = "zoom-in";
+			img.parentElement.style.maxWidth = "2rem";
             img.addEventListener("click", function (event) {
                 event.stopPropagation();
                 if (this.style.maxHeight == "") {
                     this.parentElement.style.height = "unset";
+					this.parentElement.style.maxWidth = "";
                     this.style.maxHeight = "700px";
                     this.style.cursor = "zoom-out";
                 } else {
                     this.parentElement.style.height = "";
+					this.parentElement.style.maxWidth = "2rem";
                     this.style.maxHeight = "";
                     this.style.cursor = "zoom-in";
                     this.scrollIntoView({
@@ -606,6 +609,44 @@ function post_reply_small_img() {
     });
 }
 
+//----------贴内添加滚动到顶端按钮----------
+
+function post_scroll_top() {
+	let temp_btn = document.createElement("button");
+	let post_div = document.querySelector("#con_m");
+	temp_btn.id = "mod_scroll_top";
+	temp_btn.innerHTML = "TOP↑";
+	temp_btn.title = "回到帖子顶端";
+	if (mod_setting.layout.change_color == false) {
+		temp_btn.style.color = "#f26c1c";
+	}
+	if (document.querySelector("#mod_scroll_top") == null) {
+		post_div?.appendChild(temp_btn);
+	}
+	temp_btn.addEventListener("click", function () {
+		post_div.scrollTo({top:0,behavior:"smooth"});
+	});
+	post_div.addEventListener("scroll", function (){
+		if (post_div.scrollTop >= 700) {
+			temp_btn.style.visibility = "visible";
+		}else{
+			temp_btn.style.visibility = "hidden";
+		}
+	});
+	GM_addStyle(`
+	#mod_scroll_top {
+		background-color : unset;
+		border-width : 0;
+		cursor : pointer;
+		position : fixed;
+		right : 20px;
+		bottom : 50px;
+		visibility : hidden;
+		font-weight : bold;
+	}
+	`)
+}
+
 //----------脚本设置面板----------
 
 function add_plugin_setting_page() {
@@ -613,8 +654,8 @@ function add_plugin_setting_page() {
         let temp_btn = document.createElement("button");
         temp_btn.id = "mod_setting_btn";
         temp_btn.innerHTML = `<img src="${setting_icon}">`;
-        temp_btn.title = "页面调整设置"
-            let mod_div = document.createElement("div");
+        temp_btn.title = "页面调整设置";
+        let mod_div = document.createElement("div");
         mod_div.id = "mod_setting_panel";
         mod_div.style.display = "none";
         mod_div.classList.add("van-popup");
@@ -717,7 +758,7 @@ const setting_page = `
 <button id="mod_set_p_cancel">×</button>
 <br>
 <div>
-  <fieldset name="layout" style="display:flex;flex-direction: column;">
+  <fieldset name="layout" style="display:flex;flex-direction:column;">
     <legend>布局与颜色</legend>
     <label><input type="checkbox" name="wide">宽屏布局 <input type="range" name="wide_percent" min="70" max="100" step="0.2"><span id="mod_set_w_value"></span></label>
 	<label><input type="checkbox" name="main_bigpic">主页图片点击放大</label>
@@ -732,6 +773,7 @@ const setting_page = `
   <fieldset name="post">
     <legend>帖子页面</legend>
     <label><input type="checkbox" name="hide_input">自动隐藏回复输入框</label>
+	<label><input type="checkbox" name="scroll_top">添加滚动到页面顶端按钮</label>
 	<label><input type="checkbox" name="img_btns">查看大图界面添加长图放大、设为背景功能</label>
 	<label><input type="checkbox" name="reply_small_img">缩小回复显示的图片(<label><input type="checkbox" name="reply_scale_img">原地放大</label>)</label>
 	<label><input type="checkbox" name="hide_cont_r">隐藏右侧边栏</label>
@@ -803,7 +845,7 @@ GM_addStyle(`
   border-style:solid;
   border-radius:5px;
   box-shadow:0 0 15px #ccc6;
-  background-color:#ddd8 !important;
+  background-color:#ddda !important;
   backdrop-filter:blur(15px);
   text-shadow: 0 0 20px #999;
   backdrop-filter:blur(10px);
@@ -887,6 +929,7 @@ GM_addStyle(`
   border:1px solid;
   margin:5px 0;
   border-radius:5px;
+  background-color:#bbba;
 }
 
 #mod_setting_panel #mod_set_img{
@@ -1028,6 +1071,13 @@ function waitForObjs() {
             active_once: false
         });
     }
+	if (mod_setting.post.scroll_top) {
+        listeners.push({
+            selector: ".card_m1",
+            callback: post_scroll_top,
+            active_once: true
+        });
+    }
     listeners.push({
         selector: ".main",
         callback: add_plugin_setting_page,
@@ -1065,7 +1115,8 @@ const mod_setting_default = {
         "hide_cont_r": false,
         "reply_small_img": false,
         "reply_scale_img": false,
-        "post_title_as_page_title": false
+        "post_title_as_page_title": false,
+		"scroll_top": false
     },
     "userpage": {
         "add_game_profile": false
