@@ -1104,7 +1104,7 @@ const mod_setting_default = {
     },
     "bg": {
         "change": false,
-		"opacity": 98,
+        "opacity": 98,
         "local": false,
         "url": "",
         "b64": "",
