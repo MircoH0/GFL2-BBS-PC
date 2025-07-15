@@ -24,13 +24,13 @@ jobs:
           # 确保 dist 目录存在
           mkdir -p dist
           
-          for file in $(find . -name "*.user.js" -type f); do
+          for file in $(find . -name "*.user.js" -type f -not -path "./dist/*"); do
             filename=$(basename "$file")
             cdn_file="dist/$filename"
             
             # 生成 jsDelivr CDN 链接
-            cdn_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@master/${cdn_file}"
-            update_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@master/${cdn_file}"
+            cdn_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@master/dist/$filename"
+            update_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@master/dist/$filename"
             
             # 处理文件内容
             awk -v cdn_url="$cdn_url" -v update_url="$update_url" '
