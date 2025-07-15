@@ -12,7 +12,6 @@ jobs:
   generate-cdn:
     runs-on: ubuntu-latest
     permissions:
-      # 需要写入权限来创建提交
       contents: write
     steps:
       - name: Checkout repository
@@ -20,20 +19,22 @@ jobs:
 
       - name: Generate CDN links
         run: |
-          # 确保 dist 目录存在
+          # Ensure dist directory exists
           mkdir -p dist
           
-          for file in $(find . -name "*.user.js" -type f); do
+          # Find all user.js files and process them
+          find . -name "*.user.js" -type f | while read -r file; do
+            # Get the filename without path
             filename=$(basename "$file")
             cdn_file="dist/$filename"
             
-            # 生成 jsDelivr CDN 链接
+            # Generate CDN URLs using jsDelivr
             cdn_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@master/${cdn_file}"
             update_url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@master/${cdn_file}"
             
-            # 处理文件内容
+            # Process file content and update metadata
             awk -v cdn_url="$cdn_url" -v update_url="$update_url" '
-            BEGIN { in_metadata = 0; metadata_end = 0; printed_urls = 0 }
+            BEGIN { in_metadata = 0; printed_urls = 0 }
             {
               if ($0 ~ /^\/\/ ==UserScript==/) {
                 in_metadata = 1
@@ -45,23 +46,22 @@ jobs:
               }
               if (in_metadata && $0 ~ /^\/\/ =+=UserScript=+=/) {
                 in_metadata = 0
-                metadata_end = 1
               }
               if (in_metadata && !printed_urls && ($0 ~ /^\/\/ @downloadURL/ || $0 ~ /^\/\/ @updateURL/)) {
-                next  # 跳过旧的 downloadURL 和 updateURL
+                next  # Skip existing downloadURL and updateURL
               }
               print $0
             }' "$file" > "$cdn_file"
             
-            # 提交新文件
+            # Stage the new file
             git add "$cdn_file"
           done
           
-          # 配置 Git
+          # Configure Git
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-          # 提交更改
+          # Commit and push if there are changes
           if git status --porcelain | grep .; then
             git commit -m "Update CDN links"
             git push
