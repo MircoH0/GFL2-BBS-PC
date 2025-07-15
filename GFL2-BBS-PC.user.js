@@ -1102,7 +1102,7 @@ const mod_setting_default = {
     },
     "bg": {
         "change": false,
-		"opacity": 98,
+        "opacity": 98,
         "local": false,
         "url": "",
         "b64": "",
@@ -1116,7 +1116,7 @@ const mod_setting_default = {
         "reply_small_img": false,
         "reply_scale_img": false,
         "post_title_as_page_title": false,
-		"scroll_top": false
+        "scroll_top": false
     },
     "userpage": {
         "add_game_profile": false
