@@ -13,7 +13,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.2.10
+// @version     0.2.10.1
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -586,7 +586,7 @@ function add_game_profile() {
 //----------帖内回复图片缩放----------
 
 function post_reply_small_img() {
-    document.querySelectorAll(".card_con_text .showImg,.card_con_reply .showImg").forEach(function (img) {
+    document.querySelectorAll("#con_m>.van-list .showImg").forEach(function (img) {
         if (img.getAttribute("mod_img") != "1" && img.naturalHeight > 300) {
             img.style.maxHeight = "300px";
             if (mod_setting.post.reply_scale_img) {
@@ -617,7 +617,7 @@ function post_scroll_top() {
 	let temp_btn = document.createElement("button");
 	let post_div = document.querySelector("#con_m");
 	temp_btn.id = "mod_scroll_top";
-	temp_btn.innerHTML = "TOP↑";
+	temp_btn.innerHTML = "↑<br>TOP";
 	temp_btn.title = "回到帖子顶端";
 	if (mod_setting.layout.change_color == false) {
 		temp_btn.style.color = "#f26c1c";
@@ -1061,7 +1061,7 @@ function waitForObjs() {
     }
     if (mod_setting.post.reply_small_img) {
         listeners.push({
-            selector: ".card_con_text .showImg,.card_con_reply .showImg",
+            selector: "#con_m>.van-list .showImg",
             callback: post_reply_small_img,
             active_once: false
         });
