@@ -11,7 +11,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.2.10.1
+// @version     0.2.10.2
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -584,7 +584,7 @@ function add_game_profile() {
 //----------帖内回复图片缩放----------
 
 function post_reply_small_img() {
-    document.querySelectorAll("#con_m>.van-list .showImg").forEach(function (img) {
+    document.querySelectorAll("#con_m>.van-list .showImg,.commen_m_box .showImg").forEach(function (img) {
         if (img.getAttribute("mod_img") != "1" && img.naturalHeight > 300) {
             img.style.maxHeight = "300px";
             if (mod_setting.post.reply_scale_img) {
@@ -1059,7 +1059,7 @@ function waitForObjs() {
     }
     if (mod_setting.post.reply_small_img) {
         listeners.push({
-            selector: "#con_m>.van-list .showImg",
+            selector: "#con_m>.van-list .showImg,.commen_m_box .showImg",
             callback: post_reply_small_img,
             active_once: false
         });
