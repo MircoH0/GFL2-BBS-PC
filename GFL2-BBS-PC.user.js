@@ -11,7 +11,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.2.11
+// @version     0.2.11.1
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -553,10 +553,8 @@ function post_reply_small_img() {
             }
             
             // naturalHeight > 0 说明图片已加载，可以处理
-            if (img.naturalHeight > 300) {
-                img.style.maxHeight = "300px";
-            }
-            if (mod_setting.post.reply_scale_img) {
+            if (mod_setting.post.reply_scale_img && img.naturalHeight > 300) {
+				img.style.maxHeight = "300px";
                 img.style.cursor = "zoom-in";
                 img.addEventListener("click", function (event) {
                     event.stopImmediatePropagation();
