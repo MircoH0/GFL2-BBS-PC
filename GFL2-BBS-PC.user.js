@@ -11,7 +11,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.2.10.2
+// @version     0.2.11
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -43,6 +43,10 @@ function adjust_layout() {
   width:calc(100% - 480px) !important;
 }
 
+* {
+	scrollbar-color:unset !important;
+}
+
 ::-webkit-scrollbar{
   /*display:none;*/
   width:10px;
@@ -54,7 +58,7 @@ function adjust_layout() {
 }
 
 ::-webkit-scrollbar-thumb{
-  background-color:#f26c1c;
+  background:#f26c1c;
   border-style: dashed;
   border-radius:10px;
   border-color: transparent;
@@ -73,8 +77,13 @@ function adjust_layout() {
 }
 
 .card_item .img_box div{
-  display:inline-block;
+  display:inline-flex;
   margin-right:10px;
+}
+
+.card_item .img-wrapper,.card_item .img-container{
+	max-width: 2rem;
+	max-height: 200px;
 }
 
 .card_item .card_m .img_box{display:unset !important}
@@ -207,7 +216,6 @@ function adjust_layout() {
 	height:unset !important;
 }
 
-
 /*---帖子发布、编辑页---*/
 
 .content_r:has(.head1){
@@ -314,7 +322,7 @@ function custom_color() {
         GM_addStyle(`
 
 /*---背景色---*/
-html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign_box,.content_l,.hot_words>.fire_items div,.van-list,.content_m,.mine_b>.mine_bl,.mine_b>.mine_br,.content_u>.mask>.head_box,.user_box,.content_m12>.reply_con1>.reply_con_child,.content_m12>.reply_con1>.reply_con_child .w-e-text-container{
+html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign_box,.content_l,.hot_words>.fire_items div,.van-list,.content_m,.mine_b>.mine_bl,.mine_b>.mine_br,.content_u>.mask>.head_box,.user_box,.content_m12>.reply_con1>.reply_con_child,.content_m12>.reply_con1>.reply_con_child .w-e-text-container,.card_m1 .tp{
   background:${mod_setting.layout.bg_color} !important;
   background-color:${mod_setting.layout.bg_color} !important;
   color:${mod_setting.layout.text_color} !important;
@@ -450,27 +458,14 @@ function hide_content_r_in_post() {
 //----------帖子内点击图片查看附加功能----------
 
 function add_img_pop_btns() {
-    let popup_div = document.querySelector(".img_popup");
-    if (popup_div != null && document.querySelector("#mod_img_pop_div") == null) {
-        let temp_div = document.createElement("div");
-        temp_div.id = "mod_img_pop_div";
-        let temp_button1 = document.createElement("button");
+	let btns_div = document.querySelector(".custom-pill-toolbar");
+    if (btns_div != null && document.querySelector("#mod_img_setbg_btn") == null) {
         let temp_button2 = document.createElement("button");
-        temp_button1.id = "mod_big_img";
-        temp_button1.innerHTML = "长图片模式";
-        temp_button2.innerHTML = "设为背景图";
-        temp_button1.addEventListener("click", function () {
-            let imgs = document.querySelectorAll(".img_popup img");
-            imgs.forEach(function (img) {
-                if (img.style.maxHeight == "") {
-                    img.style = "max-height:unset;position:absolute;top:10px;";
-                } else {
-                    img.style = "";
-                }
-            });
-        });
+		temp_button2.id = "mod_img_setbg_btn"
+        temp_button2.title = "设为背景图";
+		temp_button2.innerText = "BG";
         temp_button2.addEventListener("click", function () {
-            mod_setting.bg.url = document.querySelector(".img_popup .swiper-slide-active img").src;
+            mod_setting.bg.url = document.querySelector(".vel-img-wrapper img").src;
             mod_setting.bg.change = true;
             mod_setting.bg.local = false;
             save_setting();
@@ -478,25 +473,17 @@ function add_img_pop_btns() {
                 location.reload();
             });
         });
-        temp_div.appendChild(temp_button1);
-        temp_div.appendChild(temp_button2);
-        popup_div.appendChild(temp_div);
+        btns_div.appendChild(temp_button2);
 
         GM_addStyle(`
-			#mod_img_pop_div{
-				position:fixed;
-				top:10px;
-				right:50px;
-				width:200px;
-				height:50px;
-				/*background-color:#fff;*/
-				z-index:2100;
-				opacity:0.5;
-				font-size:15px;
+			#mod_img_setbg_btn{
+				height: 32px;
+				width: 32px;
+				border: none;
+				background: transparent;
+				cursor: pointer;
+				font-size: 12px;
 			}
-			#mod_img_pop_div input{-webkit-appearance:auto}
-			#mod_img_pop_div label{color:#eee}
-			#mod_img_pop_div button{color:#eee;background:transparent;margin-left:15px;border:0;cursor:pointer;}
 	`);
     }
 }
@@ -522,36 +509,6 @@ function set_post_page_title() {
     if (document.title.startsWith(t_title) == false) {
         document.title = t_title + " - " + document.title;
     }
-}
-
-//----------首页中查看大图----------
-
-function big_pic_for_main_page() {
-    document.querySelectorAll(".img_box img").forEach(function (img) {
-        if (img.classList.contains("clickimg") == false) {
-            img.style.cursor = "zoom-in";
-			img.parentElement.style.maxWidth = "2rem";
-            img.addEventListener("click", function (event) {
-                event.stopPropagation();
-                if (this.style.maxHeight == "") {
-                    this.parentElement.style.height = "unset";
-					this.parentElement.style.maxWidth = "";
-                    this.style.maxHeight = "700px";
-                    this.style.cursor = "zoom-out";
-                } else {
-                    this.parentElement.style.height = "";
-					this.parentElement.style.maxWidth = "2rem";
-                    this.style.maxHeight = "";
-                    this.style.cursor = "zoom-in";
-                    this.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'nearest'
-                    });
-                }
-            });
-            img.classList.add("clickimg");
-        }
-    });
 }
 
 //----------信息页游戏角色查询入口----------
@@ -585,8 +542,20 @@ function add_game_profile() {
 
 function post_reply_small_img() {
     document.querySelectorAll("#con_m>.van-list .showImg,.commen_m_box .showImg").forEach(function (img) {
-        if (img.getAttribute("mod_img") != "1" && img.naturalHeight > 300) {
-            img.style.maxHeight = "300px";
+        if (img.getAttribute("mod_img") != "1") {
+            // 如果图片还没加载完成，监听 load 事件
+            if (img.naturalHeight === 0) {
+                img.addEventListener("load", function loadHandler() {
+                    img.removeEventListener("load", loadHandler);
+                    post_reply_small_img(); // 重新调用处理
+                });
+                return; // 跳过这张图片，等待加载完成
+            }
+            
+            // naturalHeight > 0 说明图片已加载，可以处理
+            if (img.naturalHeight > 300) {
+                img.style.maxHeight = "300px";
+            }
             if (mod_setting.post.reply_scale_img) {
                 img.style.cursor = "zoom-in";
                 img.addEventListener("click", function (event) {
@@ -761,7 +730,6 @@ const setting_page = `
   <fieldset name="layout" style="display:flex;flex-direction:column;">
     <legend>布局与颜色</legend>
     <label><input type="checkbox" name="wide">宽屏布局 <input type="range" name="wide_percent" min="70" max="100" step="0.2"><span id="mod_set_w_value"></span></label>
-	<label><input type="checkbox" name="main_bigpic">主页图片点击放大</label>
     <label><input type="checkbox" name="change_color">自定义颜色</label>
 	<div style="display:flex">
 	<label>背景<input type="color" name="bg_color"></label>
@@ -774,7 +742,7 @@ const setting_page = `
     <legend>帖子页面</legend>
     <label><input type="checkbox" name="hide_input">自动隐藏回复输入框</label>
 	<label><input type="checkbox" name="scroll_top">添加滚动到页面顶端按钮</label>
-	<label><input type="checkbox" name="img_btns">查看大图界面添加长图放大、设为背景功能</label>
+	<label><input type="checkbox" name="img_btns">查看大图界面添加设为背景功能</label>
 	<label><input type="checkbox" name="reply_small_img">缩小回复显示的图片(<label><input type="checkbox" name="reply_scale_img">原地放大</label>)</label>
 	<label><input type="checkbox" name="hide_cont_r">隐藏右侧边栏</label>
 	<label><input type="checkbox" name="post_title_as_page_title">将帖子标题添加到网页的标题前</label>
@@ -969,7 +937,8 @@ function waitForObj(selector, callback, active_once = false, node = document.bod
         });
         obvser.observe(document.body, {
             childList: true,
-            subtree: stree
+            subtree: true,
+			attributes: true
         });
         return obvser;
     }
@@ -996,7 +965,9 @@ function waitForObj(selector, callback, active_once = false, node = document.bod
         });
         obvser.observe(document.body, {
             childList: true,
-            subtree: stree
+            subtree: true,
+   attributes: true,
+            attributeFilter: ['style', 'class', 'v-if', 'v-show', 'src', 'data-src']
         });
         return obvser;
     }
@@ -1023,7 +994,7 @@ function waitForObjs() {
     }
     if (mod_setting.post.img_btns) {
         listeners.push({
-            selector: ".img_popup",
+            selector: ".custom-pill-toolbar",
             callback: add_img_pop_btns,
             active_once: false
         });
@@ -1042,14 +1013,6 @@ function waitForObjs() {
             active_once: true
         });
     }
-    if (mod_setting.layout.main_bigpic) {
-        GM_addStyle(`.card_item .card_m .img_box{display:unset !important}`);
-        listeners.push({
-            selector: ".img_box img",
-            callback: big_pic_for_main_page,
-            active_once: false
-        });
-    }
     if (mod_setting.userpage.add_game_profile) {
         listeners.push({
             selector: ".mine_box_r",
@@ -1059,7 +1022,7 @@ function waitForObjs() {
     }
     if (mod_setting.post.reply_small_img) {
         listeners.push({
-            selector: "#con_m>.van-list .showImg,.commen_m_box .showImg",
+            selector: ["#con_m>.van-list .showImg",".commen_m_box .showImg"],
             callback: post_reply_small_img,
             active_once: false
         });
@@ -1097,8 +1060,7 @@ const mod_setting_default = {
         "change_color": false,
         "bg_color": "#444444",
         "fore_color": "#333333",
-        "text_color": "#eeeeee",
-        "main_bigpic": false
+        "text_color": "#eeeeee"
     },
     "bg": {
         "change": false,
@@ -1149,11 +1111,10 @@ function load_setting() {
 
     load_setting();
     //console.log(mod_setting);
-
     adjust_layout();
-    custom_color();
-    set_bg_img();
-    waitForObjs();
+	custom_color();
+	set_bg_img();
+	waitForObjs();
 
 })();
 
