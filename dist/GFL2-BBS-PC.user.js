@@ -13,7 +13,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.2.11.1
+// @version     0.2.12
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -43,6 +43,10 @@ function adjust_layout() {
 .content_main .content_m{
   padding:unset !important;
   width:calc(100% - 480px) !important;
+}
+
+.content_m_inner{
+	width:auto !important;
 }
 
 * {
@@ -116,6 +120,11 @@ function adjust_layout() {
   width:calc(100% - 625px);
 }
 
+.index_con>.list_1{
+	display:inline-block;
+	width:calc(100% - 40px);
+}
+
 .conditions1{border-radius:5px !important}
 
 .card_item{border-radius:5px !important}
@@ -137,6 +146,10 @@ function adjust_layout() {
   width:calc(100% - 300px) !important;
 }
 
+.content_m12_inner{width:auto !important;}
+
+.content_m12_inner>.card_item{width:auto !important;}
+
 .content_m12>.card_item{width:97% !important}
 
 .card_m1>p{
@@ -150,7 +163,7 @@ function adjust_layout() {
   max-height:600px;
 }
 
-.content_m12>.reply_con1{
+.content_m12_inner>.reply_con1{
 	width:calc(100% - 5px) !important;
 	border-radius:5px;
 }
@@ -161,14 +174,14 @@ function adjust_layout() {
   border-radius:20px !important;
 }
 
-.content_m12>.comment_head{
+.content_m12_inner>.comment_head{
   width:calc(100% - 3%) !important;
   border-radius:5px;
 }
 
-.content_m12>.van-list{width:100% !important}
+.content_m12_inner>.van-list{width:100% !important}
 
-.content_m12>.van-list>.card_item{width:97% !important}
+.content_m12_inner>.van-list>.card_item{width:97% !important}
 
 .card_con .card_con_reply{
   padding: 0.1rem 0.1rem !important;
@@ -218,17 +231,22 @@ function adjust_layout() {
 	height:unset !important;
 }
 
+.card_con .showImg{
+	max-height:500px;
+	max-width:500px;
+}
+
 /*---帖子发布、编辑页---*/
 
 .content_r:has(.head1){
 	top:80px;
-	height:unset !important;
+	height:95% !important;
 	width:${mod_setting.layout.wide_percent}% !important;
 }
 
-.content_r .head1{margin-top:unset !important}
+.content_r .head1{margin-top:unset !important;}
 
-.head_r .c_box{left:unset !important;}
+.content_r>.div-rich-editor{height:70% !important;}
 
 
 /*-----攻略页-----*/
@@ -247,9 +265,22 @@ function adjust_layout() {
 
 /*-----账号信息卡页-----*/
 
-.content_main:has(.mine_b){height:90% !important}
+.content_main_inner{
+	width:auto !important;
+	height:98% !important;
+}
 
-.mine_b>.mine_br{width:0}
+.content_main:has(.mine_b){
+	height:90% !important;
+	width:${mod_setting.layout.wide_percent}% !important;
+	position:relative !important;
+}
+
+.mine_b{height:calc(100% - 260px);}
+
+.mine_brb{height:calc(100% - 50px) !important;}
+
+.mine_brb>.content_f{height:calc(100% - 10px) !important}
 
 .mine_brb>.content_f>.van-list .card_item{width:unset !important}
 
@@ -272,6 +303,8 @@ function adjust_layout() {
 /*-----搜索页-----*/
 
 #content_sear{width:calc(100% - 230px)}
+
+.content_sear_inner{width:100% !important;}
 
 #content_sear>.van-list .card_item{
   width:97% !important;
@@ -324,20 +357,20 @@ function custom_color() {
         GM_addStyle(`
 
 /*---背景色---*/
-html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign_box,.content_l,.hot_words>.fire_items div,.van-list,.content_m,.mine_b>.mine_bl,.mine_b>.mine_br,.content_u>.mask>.head_box,.user_box,.content_m12>.reply_con1>.reply_con_child,.content_m12>.reply_con1>.reply_con_child .w-e-text-container,.card_m1 .tp{
+html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign_box,.content_l,.hot_words>.fire_items div,.van-list,.content_m,.mine_b>.mine_bl,.mine_b>.mine_br,.content_u>.mask>.head_box,.user_box,.content_m12_inner>.reply_con1>.reply_con_child,.content_m12_inner>.reply_con1>.reply_con_child .w-e-text-container,.card_m1 .tp,.index_con>.list_1{
   background:${mod_setting.layout.bg_color} !important;
   background-color:${mod_setting.layout.bg_color} !important;
   color:${mod_setting.layout.text_color} !important;
 }
 
 /*---前景色---*/
-.index_news,.conditions1,.card_item,.van-button--primary,.van-button--plain,.comment_head,.post_box,.van-action-sheet__cancel,.list_wrap li,.btn1,.btn2,.item,.w-e-toolbar,.w-e-text-container,.top_box,.t_box>div,.sign,.task,.content_rule,.gift_user,.van-action-sheet__item,.content .van-cell,.content .head1 select,.van-search__content,.user_box .user_item input,.type_box,.head_item,.van-dialog,.van-button--default,.content_r>.btns:has(.btn),.content_m12>.reply_con1,.message_pro,.hot_words,.icon_box,.get_box,.theme,.emoji_types,.head_r .c_box,.com_item>div,.sear_themesbox>ul{
+.index_news,.conditions1,.card_item,.van-button--primary,.van-button--plain,.comment_head,.post_box,.van-action-sheet__cancel,.list_wrap li,.btn1,.btn2,.item,.w-e-toolbar,.w-e-text-container,.top_box,.t_box>div,.sign,.task,.content_rule,.gift_user,.van-action-sheet__item,.content .van-cell,.content .head1 select,.van-search__content,.user_box .user_item input,.sort_type_box,.type_box,.head_item,.van-dialog,.van-button--default,.content_r>.btns:has(.btn),.content_m12_inner>.reply_con1,.message_pro,.hot_words,.icon_box,.get_box,.theme,.emoji_types,.com_item>div,.sear_themesbox>ul,.card_tr>.time-badge{
   background-color:${mod_setting.layout.fore_color} !important;
   background:${mod_setting.layout.fore_color} !important;
 }
 
 /*---主要文字---*/
-.van-tab,.card_tit p,.card_m1 div,.comment_head>span,.van-action-sheet__cancel,.list_wrap>p,.show_message p,.show_message span,.mine_box p,.item>p,.sign_box>p,.gift_user,.comment_head .ac,.van-field__control,.content .head1 select,.card_con_reply p>i>i,.mine_box .data_box span,.van-button--default,.btns span{color:${mod_setting.layout.text_color} !important}
+.van-tab,.card_tit p,.card_m1 div,.comment_head>span,.van-action-sheet__cancel,.list_wrap>p,.show_message p,.show_message span,.mine_box p,.item>p,.sign_box>p,.gift_user,.comment_head .ac,.van-field__control,.content .head1 select,.card_con_reply p>i>i,.mine_box .data_box span,.van-button--default,.btns span,.endless-rank-badge{color:${mod_setting.layout.text_color} !important}
 
 .sign_box>p b{color:#ff0 !important}
 
@@ -444,7 +477,7 @@ function add_hide_reply_btn() {
         });
         temp_div.parentElement.insertBefore(temp_btn, temp_div /*.nextSibling*/);
         document.querySelector("#hide_reply_input")?.click();
-        GM_addStyle(`.content_m12>.reply_con1{margin:0 auto !important}`);
+        GM_addStyle(`.content_m12_inner>.reply_con1{margin:0 auto !important}`);
     }
 }
 
@@ -538,82 +571,6 @@ function add_game_profile() {
 			`);
         }
     }
-}
-
-//----------帖内回复图片缩放----------
-
-function post_reply_small_img() {
-    document.querySelectorAll("#con_m>.van-list .showImg,.commen_m_box .showImg").forEach(function (img) {
-        if (img.getAttribute("mod_img") != "1") {
-            // 如果图片还没加载完成，监听 load 事件
-            if (img.naturalHeight === 0) {
-                img.addEventListener("load", function loadHandler() {
-                    img.removeEventListener("load", loadHandler);
-                    post_reply_small_img(); // 重新调用处理
-                });
-                return; // 跳过这张图片，等待加载完成
-            }
-            
-            // naturalHeight > 0 说明图片已加载，可以处理
-            if (mod_setting.post.reply_scale_img && img.naturalHeight > 300) {
-				img.style.maxHeight = "300px";
-                img.style.cursor = "zoom-in";
-                img.addEventListener("click", function (event) {
-                    event.stopImmediatePropagation();
-                    if (img.style.maxHeight == "") {
-                        img.style.maxHeight = "300px";
-                        img.style.cursor = "zoom-in";
-                        img.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'nearest'
-                        });
-                    } else {
-                        img.style.maxHeight = "";
-                        img.style.cursor = "zoom-out";
-                    }
-                });
-            }
-            img.setAttribute("mod_img", "1");
-        }
-    });
-}
-
-//----------贴内添加滚动到顶端按钮----------
-
-function post_scroll_top() {
-	let temp_btn = document.createElement("button");
-	let post_div = document.querySelector("#con_m");
-	temp_btn.id = "mod_scroll_top";
-	temp_btn.innerHTML = "↑<br>TOP";
-	temp_btn.title = "回到帖子顶端";
-	if (mod_setting.layout.change_color == false) {
-		temp_btn.style.color = "#f26c1c";
-	}
-	if (document.querySelector("#mod_scroll_top") == null) {
-		post_div?.appendChild(temp_btn);
-	}
-	temp_btn.addEventListener("click", function () {
-		post_div.scrollTo({top:0,behavior:"smooth"});
-	});
-	post_div.addEventListener("scroll", function (){
-		if (post_div.scrollTop >= 700) {
-			temp_btn.style.visibility = "visible";
-		}else{
-			temp_btn.style.visibility = "hidden";
-		}
-	});
-	GM_addStyle(`
-	#mod_scroll_top {
-		background-color : unset;
-		border-width : 0;
-		cursor : pointer;
-		position : fixed;
-		right : 20px;
-		bottom : 50px;
-		visibility : hidden;
-		font-weight : bold;
-	}
-	`)
 }
 
 //----------脚本设置面板----------
@@ -741,9 +698,7 @@ const setting_page = `
   <fieldset name="post">
     <legend>帖子页面</legend>
     <label><input type="checkbox" name="hide_input">自动隐藏回复输入框</label>
-	<label><input type="checkbox" name="scroll_top">添加滚动到页面顶端按钮</label>
 	<label><input type="checkbox" name="img_btns">查看大图界面添加设为背景功能</label>
-	<label><input type="checkbox" name="reply_small_img">缩小回复显示的图片(<label><input type="checkbox" name="reply_scale_img">原地放大</label>)</label>
 	<label><input type="checkbox" name="hide_cont_r">隐藏右侧边栏</label>
 	<label><input type="checkbox" name="post_title_as_page_title">将帖子标题添加到网页的标题前</label>
     <div style="display:flex">
@@ -1020,13 +975,6 @@ function waitForObjs() {
             active_once: false
         });
     }
-    if (mod_setting.post.reply_small_img) {
-        listeners.push({
-            selector: ["#con_m>.van-list .showImg",".commen_m_box .showImg"],
-            callback: post_reply_small_img,
-            active_once: false
-        });
-    }
     if (mod_setting.post.post_title_as_page_title) {
         listeners.push({
             selector: ".card_m1>p",
@@ -1034,13 +982,7 @@ function waitForObjs() {
             active_once: false
         });
     }
-	if (mod_setting.post.scroll_top) {
-        listeners.push({
-            selector: ".card_m1",
-            callback: post_scroll_top,
-            active_once: true
-        });
-    }
+	
     listeners.push({
         selector: ".main",
         callback: add_plugin_setting_page,
@@ -1075,10 +1017,7 @@ const mod_setting_default = {
         "seq": 0,
         "img_btns": false,
         "hide_cont_r": false,
-        "reply_small_img": false,
-        "reply_scale_img": false,
-        "post_title_as_page_title": false,
-        "scroll_top": false
+        "post_title_as_page_title": false
     },
     "userpage": {
         "add_game_profile": false
