@@ -13,7 +13,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.2.12
+// @version     0.2.12.1
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -248,6 +248,7 @@ function adjust_layout() {
 
 .content_r>.div-rich-editor{height:70% !important;}
 
+.div-rich-editor>.div-editor-text{max-height:90% !important;}
 
 /*-----攻略页-----*/
 
