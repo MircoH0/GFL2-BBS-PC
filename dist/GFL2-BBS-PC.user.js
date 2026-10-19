@@ -13,7 +13,7 @@
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM_notification
-// @version     0.2.12.1
+// @version     0.2.12.2
 // @author      Mirco
 // @description 各种各样的页面调整
 // ==/UserScript==
@@ -365,7 +365,7 @@ html,body,.card_con_reply,.post_box>span,.van-search,.van-popup,.searc_box,.sign
 }
 
 /*---前景色---*/
-.index_news,.conditions1,.card_item,.van-button--primary,.van-button--plain,.comment_head,.post_box,.van-action-sheet__cancel,.list_wrap li,.btn1,.btn2,.item,.w-e-toolbar,.w-e-text-container,.top_box,.t_box>div,.sign,.task,.content_rule,.gift_user,.van-action-sheet__item,.content .van-cell,.content .head1 select,.van-search__content,.user_box .user_item input,.sort_type_box,.type_box,.head_item,.van-dialog,.van-button--default,.content_r>.btns:has(.btn),.content_m12_inner>.reply_con1,.message_pro,.hot_words,.icon_box,.get_box,.theme,.emoji_types,.com_item>div,.sear_themesbox>ul,.card_tr>.time-badge{
+.index_news,.conditions1,.card_item,.van-button--primary,.van-button--plain,.comment_head,.post_box,.van-action-sheet__cancel,.list_wrap li,.btn1,.btn2,.item,.w-e-toolbar,.w-e-text-container,.top_box,.t_box>div,.sign,.task,.content_rule,.gift_user,.van-action-sheet__item,.content .van-cell,.content .head1 select,.van-search__content,.user_box .user_item input,.sort_type_box,.type_box,.head_item,.van-dialog,.van-button--default,.content_r>.btns:has(.btn),.content_m12_inner>.reply_con1,.message_pro,.hot_words,.icon_box,.get_box,.theme,.emoji_types,.head_r .c_box,.com_item>div,.sear_themesbox>ul,.card_tr>.time-badge{
   background-color:${mod_setting.layout.fore_color} !important;
   background:${mod_setting.layout.fore_color} !important;
 }
